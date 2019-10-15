@@ -1,11 +1,18 @@
 {
-  "name": "air-now-server",
+  "name": "airnow-ser",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Server application for AirNow",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "TienDat",
-  "license": "MIT"
+  "author": "JiWoo",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2"
+  }
 }
