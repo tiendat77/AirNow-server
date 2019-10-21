@@ -1,0 +1,8 @@
+# DDL
+
+USE DATABASE AirNow_database
+
+# DML
+
+# CONTEXT-DATABASE: AirNow_database
+
