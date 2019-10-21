@@ -1,9 +1,69 @@
 # DDL
 
-USE DATABASE AirNow_database
+CREATE DATABASE AirNow_database
 
 # DML
 
 # CONTEXT-DATABASE: AirNow_database
 
 
+air_aqi, location="Thu Duc" aqi=70, description="Moderate" 1569891600
+air_aqi, location="Thu Duc" aqi=106, description="Unhealthy for Sensitive Groups" 1569895200
+air_aqi, location="Thu Duc" aqi=178, description="Unhealthy" 1569898800
+air_aqi, location="Thu Duc" aqi=148, description="Unhealthy for Sensitive Groups" 1569902400
+air_aqi, location="Thu Duc" aqi=60, description="Moderate" 1569906000
+air_aqi, location="Thu Duc" aqi=120, description="Unhealthy for Sensitive Groups" 1569909600
+air_aqi, location="Thu Duc" aqi=124, description="Unhealthy for Sensitive Groups" 1569913200
+air_aqi, location="Thu Duc" aqi=179, description="Unhealthy" 1569916800
+air_aqi, location="Thu Duc" aqi=93, description="Moderate" 1569920400
+air_aqi, location="Thu Duc" aqi=62, description="Moderate" 1569924000
+air_aqi, location="Thu Duc" aqi=79, description="Moderate" 1569927600
+air_aqi, location="Thu Duc" aqi=77, description="Moderate" 1569931200
+air_aqi, location="Thu Duc" aqi=49, description="Good" 1569934800
+air_aqi, location="Thu Duc" aqi=169, description="Unhealthy" 1569938400
+air_aqi, location="Thu Duc" aqi=79, description="Moderate" 1569942000
+air_aqi, location="Thu Duc" aqi=102, description="Unhealthy for Sensitive Groups" 1569945600
+air_aqi, location="Thu Duc" aqi=79, description="Moderate" 1569949200
+air_aqi, location="Thu Duc" aqi=73, description="Moderate" 1569952800
+air_aqi, location="Thu Duc" aqi=67, description="Moderate" 1569956400
+air_aqi, location="Thu Duc" aqi=147, description="Unhealthy for Sensitive Groups" 1569960000
+air_temperature, location="Thu Duc" degrees=31 1569891600
+air_temperature, location="Thu Duc" degrees=38 1569895200
+air_temperature, location="Thu Duc" degrees=34 1569898800
+air_temperature, location="Thu Duc" degrees=32 1569902400
+air_temperature, location="Thu Duc" degrees=36 1569906000
+air_temperature, location="Thu Duc" degrees=26 1569909600
+air_temperature, location="Thu Duc" degrees=32 1569913200
+air_temperature, location="Thu Duc" degrees=31 1569916800
+air_temperature, location="Thu Duc" degrees=28 1569920400
+air_temperature, location="Thu Duc" degrees=28 1569924000
+air_temperature, location="Thu Duc" degrees=31 1569927600
+air_temperature, location="Thu Duc" degrees=35 1569931200
+air_temperature, location="Thu Duc" degrees=33 1569934800
+air_temperature, location="Thu Duc" degrees=37 1569938400
+air_temperature, location="Thu Duc" degrees=31 1569942000
+air_temperature, location="Thu Duc" degrees=27 1569945600
+air_temperature, location="Thu Duc" degrees=35 1569949200
+air_temperature, location="Thu Duc" degrees=27 1569952800
+air_temperature, location="Thu Duc" degrees=34 1569956400
+air_temperature, location="Thu Duc" degrees=34 1569960000
+air_humidity, location="Thu Duc" humidity=73 1569891600
+air_humidity, location="Thu Duc" humidity=88 1569895200
+air_humidity, location="Thu Duc" humidity=93 1569898800
+air_humidity, location="Thu Duc" humidity=90 1569902400
+air_humidity, location="Thu Duc" humidity=75 1569906000
+air_humidity, location="Thu Duc" humidity=96 1569909600
+air_humidity, location="Thu Duc" humidity=80 1569913200
+air_humidity, location="Thu Duc" humidity=91 1569916800
+air_humidity, location="Thu Duc" humidity=83 1569920400
+air_humidity, location="Thu Duc" humidity=89 1569924000
+air_humidity, location="Thu Duc" humidity=73 1569927600
+air_humidity, location="Thu Duc" humidity=73 1569931200
+air_humidity, location="Thu Duc" humidity=85 1569934800
+air_humidity, location="Thu Duc" humidity=75 1569938400
+air_humidity, location="Thu Duc" humidity=91 1569942000
+air_humidity, location="Thu Duc" humidity=93 1569945600
+air_humidity, location="Thu Duc" humidity=70 1569949200
+air_humidity, location="Thu Duc" humidity=81 1569952800
+air_humidity, location="Thu Duc" humidity=78 1569956400
+air_humidity, location="Thu Duc" humidity=79 1569960000
