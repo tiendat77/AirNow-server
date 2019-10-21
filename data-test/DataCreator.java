@@ -6,17 +6,17 @@ import java.util.Random;
 
 /**
 * 1 day -24h => 24 records
-* 20 day => 480 records
-* 3 field for each record => at least 1440 rows
+* 30 day => 720 records
+* 3 field for each record => at least 2160 rows
 */
 
 public class DataCreator {
 
   /* Configurable */
   //Output file name
-  static File file = new File("data-test.txt");
+  static File file = new File("AirNow-data-test.txt");
 
-  static int numberOfRecord = 20; // replace by 480
+  static int numberOfRecord = 720;
   static int timestampStart = 1569891600;
 
   // Random scope
@@ -29,9 +29,9 @@ public class DataCreator {
   static int minHumi = 70;
 
   // Line format
-  static String lineAqi = "air_aqi, location=\"%s\" aqi=%d, description=\"%s\" %d\n";   // location: string, aqi: int, description: string timestamp: long
-  static String lineTemperature = "air_temperature, location=\"%s\" degrees=%d %d\n";   // location: string, degrees: int timstamp: long
-  static String lineHumidity = "air_humidity, location=\"%s\" humidity=%d %d\n";        // location: string, humidity: int timstamp: long
+  static String lineAqi = "air_aqi,location=\"%s\" aqi=%d,description=\"%s\" %d\n";   // location: string, aqi: int, description: string timestamp: long
+  static String lineTemperature = "air_temperature,location=\"%s\" degrees=%d %d\n";   // location: string, degrees: int timstamp: long
+  static String lineHumidity = "air_humidity,location=\"%s\" humidity=%d %d\n";        // location: string, humidity: int timstamp: long
 
   public static void main(String[] args) {
     System.out.println("Creating sample data for influxdb");
@@ -54,7 +54,7 @@ public class DataCreator {
       for (int i = 0; i < numberOfRecord; i++) {
         aqi = rand.nextInt((maxAqi - minAqi) + 1) + minAqi;
         descript = getDescription(aqi);
-        line = String.format(lineAqi, "Thu Duc", aqi, descript, timestamp);
+        line = String.format(lineAqi, "thu-duc", aqi, descript, timestamp);
 
         printWriter.print(line);
         timestamp += 3600;  //Increase 1 hour
@@ -98,7 +98,7 @@ public class DataCreator {
 
       for (int i = 0; i < numberOfRecord; i++) {
         temp = rand.nextInt((maxTemp - minTemp) + 1) + minTemp;
-        line = String.format(lineTemperature, "Thu Duc", temp, timestamp);
+        line = String.format(lineTemperature, "thu-duc", temp, timestamp);
 
         printWriter.print(line);
         timestamp += 3600;  //Increase 1 hour
@@ -122,7 +122,7 @@ public class DataCreator {
 
       for (int i = 0; i < numberOfRecord; i++) {
         humi = rand.nextInt((maxHumi - minHumi) + 1) + minHumi;
-        line = String.format(lineHumidity, "Thu Duc", humi, timestamp);
+        line = String.format(lineHumidity, "thu-duc", humi, timestamp);
 
         printWriter.print(line);
         timestamp += 3600;  //Increase 1 hour
