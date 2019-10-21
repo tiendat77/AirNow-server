@@ -12,16 +12,23 @@ import java.util.Random;
 
 public class DataCreator {
 
+  /* Configurable */
+  //Output file name
   static File file = new File("data-test.txt");
 
+  static int numberOfRecord = 11;
+  static int timestampStart = 1569891600;
+
+  // Random scope
   static Random rand = new Random();
   static int max = 179;
   static int min = 49;
 
+  // Line format
   static String lineAqi = "air-aqi, location=%s, aqi=%d %d\n"; // location: string, aqi: int, timestamp: long
 
   public static void main(String[] args) {
-    System.out.println("Creating sample data for ...");
+    System.out.println("Creating sample data for influxdb");
 
     createAQI();
   }
@@ -31,16 +38,16 @@ public class DataCreator {
       FileWriter fileWriter = new FileWriter(file, true);
       PrintWriter printWriter = new PrintWriter(fileWriter);
 
-      long timestamp = 1569891600;
+      long timestamp = timestampStart;
       String line = "";
       int aqi;
 
-      for (int i = 0; i < 10; i++) {
+      for (int i = 0; i < numberOfRecord; i++) {
         aqi = rand.nextInt((max - min) + 1) + min;
         line = String.format(lineAqi, "HCM", aqi, timestamp);
-        // printWriter.print(line + ", aqi= "+ aqi + ", " + timestamp + "\n");
+
         printWriter.print(line);
-        timestamp += 3600;
+        timestamp += 3600;  //Increase 1 hour
       }
 
       fileWriter.flush();
