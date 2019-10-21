@@ -29,16 +29,31 @@ public class DataCreator {
   static int minHumi = 70;
 
   // Line format
-  static String lineAqi = "air_aqi,location=\"%s\" aqi=%d,description=\"%s\" %d\n";   // location: string, aqi: int, description: string timestamp: long
-  static String lineTemperature = "air_temperature,location=\"%s\" degrees=%d %d\n";   // location: string, degrees: int timstamp: long
-  static String lineHumidity = "air_humidity,location=\"%s\" humidity=%d %d\n";        // location: string, humidity: int timstamp: long
+  static String lineAqi = "air_aqi,location=%s aqi=%d,description=\"%s\" %d\n";   // location: string, aqi: int, description: string timestamp: long
+  static String lineTemperature = "air_temperature,location=%s degrees=%d %d\n";   // location: string, degrees: int timstamp: long
+  static String lineHumidity = "air_humidity,location=%s humidity=%d %d\n";        // location: string, humidity: int timstamp: long
 
   public static void main(String[] args) {
     System.out.println("Creating sample data for influxdb");
 
+    init();
     createAQI();
     createTemperature();
     createHumidity();
+  }
+
+  public static void init() {
+    try {
+      FileWriter fileWriter = new FileWriter(file, true);
+      PrintWriter printWriter = new PrintWriter(fileWriter);
+
+      printWriter.print("# DDL\n\nCREATE DATABASE AirNow_database\n\n# DML\n\n# CONTEXT-DATABASE: AirNow_database\n\n");
+
+      fileWriter.flush();
+      fileWriter.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public static void createAQI() {

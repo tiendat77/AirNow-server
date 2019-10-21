@@ -20,8 +20,10 @@ app
 
 // Routes
 app
-.use('/users', require('./routes/user'))
-.use('/', require('./routes/index'))
+  .use('/users', require('./routes/user'))
+  .use('/', require('./routes/index'))
+  .use('/api', require('./routes/api'))
+  .use('/esp32', require('./routes/esp32'))
 
 const server = http.createServer(app);
 
