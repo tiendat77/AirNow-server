@@ -78,8 +78,8 @@ router.post('/', (req, res) => {
 
   } else {
  
- error +="Fail to insert temperature";
-console.log(`insert false`);
+  error +="Fail to insert temperature";
+  console.log(`insert false`);
   }
   
   console.log(`insert humi=${humi} location=${location}`);
@@ -95,8 +95,8 @@ console.log(`insert false`);
     console.log(`insert false`);
   }
 
-if(error) res.status(500).json({ error });
-else res.status(201).json('success: true all')
+  if(error) res.status(500).json({ error });
+  else res.status(201).json('success: true all')
 });
 
 module.exports = router;
