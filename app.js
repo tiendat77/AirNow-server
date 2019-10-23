@@ -61,8 +61,8 @@ app.use(function(req, res, next) {
 const port = process.env.PORT || 8000;
 // Routes
 app
-  .use('/users', require('./routes/user'))
   .use('/', require('./routes/index'))
+  .use('/user', require('./routes/user'))
   .use('/api', require('./routes/api'))
   .use('/esp32', require('./routes/esp32'))
 
