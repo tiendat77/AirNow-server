@@ -4,21 +4,62 @@ const path = require('path');
 const bodyParser = require('body-parser')
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
 const session = require('express-session');
+const passport = require('passport');
+const flash = require('connect-flash');
 
 const app = express();
-const port = process.env.PORT || 8000;
+// Passport Config
+require('./config/passport')(passport);
+
+// DB Config
+const db = require('./config/keys').mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(
+    db,
+    { 
+      useUnifiedTopology: true,
+      useNewUrlParser: true }
+  )
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+
+// Express session
+app.use(
+  session({
+    secret: 'secret_thesis',
+    resave: true,
+    cookie: {
+    maxAge:1000*60*15
+    },
+    saveUninitialized: true
+  })
+);
 
 app
   .use(express.static('public/air-now-login'))
   .use(express.static('public/air-now'))
-  .use(bodyParser.urlencoded({
-    extended: true
-  }))
+  .use(cors())
+  .use(bodyParser.urlencoded({extended: true}))
   .use(bodyParser.json())
-  .use(cors());
+  .use(passport.initialize())
+  .use(passport.session()) 
 
+// Connect flash
+app.use(flash());
 
+// Global variables
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
+
+const port = process.env.PORT || 8000;
 // Routes
 app
   .use('/', require('./routes/index'))
