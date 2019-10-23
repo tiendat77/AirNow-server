@@ -15,7 +15,8 @@ app
   .use(bodyParser.urlencoded({
     extended: true
   }))
-  .use(bodyParser.json());
+  .use(bodyParser.json())
+  .use(cors());
 
 
 // Routes

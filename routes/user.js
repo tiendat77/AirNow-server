@@ -18,11 +18,11 @@ router.post('/login', (req, res) => {
   var password = req.body.password;
   const user = userList.find(user => user.username === username);
   if (!user) {
-    res.status(200).send({ valid: 0, message: "Invalid Username" });
+    res.status(401).send({ valid: 0, message: "Invalid Username or password" });
   } else if (user.password != password) {
-    res.status(200).send({ valid: 0, message: "Wrong password" });
+    res.status(401).send({ valid: 0, message: "Invalid Username or password" });
   } else {
-    res.redirect('/user/dashboard');
+    res.status(200).send({valid: 1, message: "Login Success" })
   }
 });
 
