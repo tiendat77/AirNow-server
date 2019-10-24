@@ -15,7 +15,6 @@ module.exports = function(passport) {
         if (!user) {
           return done(null, false, { message: 'That username is not registered' });
         }
-
       // Match password
       if(password && user.password==password) {
           return done(null, user);
