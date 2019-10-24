@@ -33,7 +33,7 @@ app.use(
     secret: 'secret_thesis',
     resave: true,
     cookie: {
-    maxAge:1000*60*15
+    maxAge:1
     },
     saveUninitialized: true
   })
