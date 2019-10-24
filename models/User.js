@@ -20,9 +20,9 @@ const UserSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', UserSchema);
-//User.create({
-//  username:"admin123",
-//  name: 'elip',
-//  password: "admin123"
-//})
+User.create({
+ username:"admin123",
+ name: 'elip',
+ password: "admin123"
+})
 module.exports = User;
