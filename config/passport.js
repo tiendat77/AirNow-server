@@ -11,12 +11,13 @@ module.exports = function(passport) {
       // Match user
       User.findOne({
         username: username
-      }).then(user => {
+      })
+      .then(user => {
         if (!user) {
           return done(null, false, { message: 'That username is not registered' });
         }
-      // Match password
-      if(password && user.password==password) {
+        // Match password
+        if(password && user.password==password) {
           return done(null, user);
         } else {
           return done(null, false, { message: 'Password incorrect' });

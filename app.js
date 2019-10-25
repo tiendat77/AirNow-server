@@ -1,6 +1,5 @@
 const express = require('express');
 const http = require('http');
-const path = require('path');
 const bodyParser = require('body-parser')
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -10,6 +9,7 @@ const passport = require('passport');
 const flash = require('connect-flash');
 
 const app = express();
+
 // Passport Config
 require('./config/passport')(passport);
 
@@ -18,11 +18,11 @@ const db = require('./config/keys').mongoURI;
 
 // Connect to MongoDB
 mongoose
-  .connect(
-    db,
+  .connect(db,
     { 
       useUnifiedTopology: true,
-      useNewUrlParser: true }
+      useNewUrlParser: true
+    }
   )
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
@@ -47,9 +47,7 @@ app
   .use(bodyParser.json())
   .use(passport.initialize())
   .use(passport.session()) 
-
-// Connect flash
-app.use(flash());
+  .use(flash());
 
 // Global variables
 app.use(function(req, res, next) {
@@ -60,6 +58,7 @@ app.use(function(req, res, next) {
 });
 
 const port = process.env.PORT || 8000;
+
 // Routes
 app
   .use('/', require('./routes/index'))
