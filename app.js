@@ -19,7 +19,7 @@ const db = require('./config/keys').mongoURI;
 // Connect to MongoDB
 mongoose
   .connect(db,
-    { 
+    {
       useUnifiedTopology: true,
       useNewUrlParser: true
     }
@@ -33,7 +33,7 @@ app.use(
     secret: 'secret_thesis',
     resave: true,
     cookie: {
-    maxAge:1
+      maxAge: 1000 * 60 * 5
     },
     saveUninitialized: true
   })
@@ -43,14 +43,14 @@ app
   .use(express.static('public/air-now-login'))
   .use(express.static('public/air-now'))
   .use(cors())
-  .use(bodyParser.urlencoded({extended: true}))
+  .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
   .use(passport.initialize())
-  .use(passport.session()) 
+  .use(passport.session())
   .use(flash());
 
 // Global variables
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');

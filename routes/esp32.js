@@ -51,16 +51,18 @@ router.post('/', (req, res) => {
   } else if (aqi > 300) {
     descript = "Hazardous";
   }
- 
+
   console.log(`insert aqi=${aqi} description=${descript} location=${location}`);
 
   if (aqi && location && !isNaN(aqi)) {
     influx
       .writePoints([{
         measurement: 'air_aqi',
-        tags: {location: location},
-        fields: {aqi: aqi,
-                description: descript}
+        tags: { location: location },
+        fields: {
+          aqi: aqi,
+          description: descript
+        }
       }])
       .catch(error => res.status(500).json({ error }));
   } else {
@@ -71,30 +73,30 @@ router.post('/', (req, res) => {
   console.log(`insert temperature=${temp} location=${location}`);
   if (temp && location && !isNaN(temp)) {
     influx
-    .writePoints([{
-      measurement: 'air_temperature',
-      tags: {location: location},
-      fields: {degrees: temp}
-    }])
-    .catch(error => res.status(500).json({ error }));
+      .writePoints([{
+        measurement: 'air_temperature',
+        tags: { location: location },
+        fields: { degrees: temp }
+      }])
+      .catch(error => res.status(500).json({ error }));
 
   } else {
-    error +="Fail to insert temperature";
+    error += "Fail to insert temperature";
     console.log(`insert false`);
   }
 
   console.log(`insert humi=${humi} location=${location}`);
 
-  if (humi && location && !isNaN(humi)){
+  if (humi && location && !isNaN(humi)) {
     influx
-    .writePoints([{
+      .writePoints([{
         measurement: 'air_humidity',
-        tags: {location: location},
-        fields: {humidity: humi}
-    }])
-    .catch(error => res.status(500).json({ error }));
+        tags: { location: location },
+        fields: { humidity: humi }
+      }])
+      .catch(error => res.status(500).json({ error }));
   } else {
-    error +="Fail to insert humidity ";
+    error += "Fail to insert humidity ";
     console.log(`insert false`);
   }
 
