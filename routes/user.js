@@ -5,15 +5,16 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
-
-// Load User model
-const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
+
+router.use(express.static('../public/air-now-login'))
+
+router.get('/', (req, res) => {
+  res.redirect('/user/login');
+});
 
 // Login get page
 router.get('/login', forwardAuthenticated, (req, res) => {
-//router.get('/login', (req, res) => {
-
   res.sendFile(path.join(__dirname, '..', 'public/air-now-login', 'index.html'));
 });
 
@@ -34,9 +35,10 @@ router.get('/login', forwardAuthenticated, (req, res) => {
 //  }
 //});
 
-//router.get('/dashboard', (req, res) => {
-//  res.status(200).send('Login success');
-//});
+router.get('/dashboard', (req, res) => {
+
+ res.status(200).send('Login success');
+});
 
 // Login to dashboard
 router.post('/login', (req, res, next) => {
