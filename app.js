@@ -2,7 +2,6 @@ const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser')
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
@@ -13,10 +12,9 @@ const app = express();
 // Passport Config
 require('./config/passport')(passport);
 
-// DB Config
-const db = require('./config/keys').mongoURI;
 
 // Connect to MongoDB
+const db = require('./config/keys').mongoURI;
 mongoose
   .connect(db,
     {
@@ -40,8 +38,7 @@ app.use(
 );
 
 app
-  .use(express.static('public/air-now-login'))
-  .use(express.static('public/air-now'))
+  .use(express.static('public/airnow-dashboard'))
   .use(cors())
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
@@ -57,14 +54,14 @@ app.use(function (req, res, next) {
   next();
 });
 
-const port = process.env.PORT || 8000;
 
 // Routes
 app
-  .use('/', require('./routes/index'))
-  .use('/user', require('./routes/user'))
-  .use('/api', require('./routes/api'))
-  .use('/esp32', require('./routes/esp32'))
+.use('/', require('./routes/user'))
+.use('/api', require('./routes/api'))
+.use('/esp32', require('./routes/esp32'))
+
+const port = process.env.PORT || 8000;
 
 const server = http.createServer(app);
 
