@@ -10,9 +10,7 @@ router.get('/', (req, res) => {
   res.redirect('/login');
 });
 
-router.get('/dashboard', ensureAuthenticated, (req, res) => {
-  res.redirect('/dashboard')
-});
+router.get('/dashboard', ensureAuthenticated, (req, res) => { });
 
 // Login get page
 router.get('/login', forwardAuthenticated, (req, res) => {
@@ -41,7 +39,7 @@ router.post('/login', (req, res, next) => {
         if (err) {
           return next(err);
         }
-        return res.redirect('/dashboard');
+        return res.status(200).send({ valid: 1, message: 'Login success' });
       })
     }
   )(req, res, next);
