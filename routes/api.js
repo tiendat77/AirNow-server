@@ -24,7 +24,7 @@ router.get('/select', (req, res) => {
     console.log(`select is error`);
   }
   if (!aqi && !humi && !temp && location) {
-    qery = ` select * from air_aqi where location=${location} and time > '2019-10-18T01:00:00Z' limit ${limit} `;
+    qery = ` select * from air_aqi where location='${location}' and time > '2019-10-18T01:00:00Z' limit ${limit} `;
     console.log(`only location is exist`);
   }
   // ari_aqi
@@ -32,21 +32,21 @@ router.get('/select', (req, res) => {
     qery = ` select * from air_aqi where aqi=${aqi} and time > '2019-10-18T01:00:00Z' limit ${limit} `;
   }
   else if (aqi && location) {
-    qery = ` select * from air_aqi where aqi=${aqi} and location=${location} and time > '2019-10-18T01:00:00Z' limit ${limit} `;
+    qery = ` select * from air_aqi where aqi=${aqi} and location='${location}' and time > '2019-10-18T01:00:00Z' limit ${limit} `;
   }
   // air_temperature
   if (temp && !location) {
     qery = ` select * from air_temperature where degrees=${temp} and time > '2019-10-18T01:00:00Z' limit ${limit} `;
   }
   else if (temp && location) {
-    qery = ` select * from air_temperature where degrees=${temp} and location=${location} and time > '2019-10-18T01:00:00Z' limit ${limit} `;
+    qery = ` select * from air_temperature where degrees=${temp} and location='${location}' and time > '2019-10-18T01:00:00Z' limit ${limit} `;
   }
   // air_humidty
   if (humi && !location) {
     qery = ` select * from air_humidity where humidity=${humi} and time > '2019-10-18T01:00:00Z' limit ${limit} `;
   }
   else if (humi && location) {
-    qery = ` select * from air_humidity where humidity=${humi} and location=${location} and time > '2019-10-18T01:00:00Z' limit ${limit} `;
+    qery = ` select * from air_humidity where humidity=${humi} and location='${location}' and time > '2019-10-18T01:00:00Z' limit ${limit} `;
   }
 
   influx
