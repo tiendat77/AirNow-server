@@ -5,12 +5,15 @@ const passport = require('passport');
 
 const { forwardAuthenticated } = require('../config/auth');
 const { ensureAuthenticated } = require('../config/auth');
+//const { logoutAuthenticated } = require('../config/auth');
 
 router.get('/', (req, res) => {
   res.redirect('/login');
 });
 
-router.get('/dashboard', ensureAuthenticated, (req, res) => { });
+router.get('/dashboard', ensureAuthenticated, (req, res) => { 
+  res.sendFile(path.join(__dirname, '..', 'public/airnow-dashboard', 'index.html'));
+});
 
 // Login get page
 router.get('/login', forwardAuthenticated, (req, res) => {
@@ -20,19 +23,13 @@ router.get('/login', forwardAuthenticated, (req, res) => {
 // Login to dashboard
 router.post('/login', (req, res, next) => {
   passport.authenticate('local',
-    // {
-    //   // Redirects
-    //   successRedirect: '/user/dashboard',
-    //   failureRedirect: '/user/login',
-    // },
-
     function (err, user, info) {
       if (err) {
         return next(err);
       }
 
       if (!user) {
-        res.status(401).send({ valid: 0, message: 'Invalid Username or Password' });
+        return res.status(401).send({ valid: 0, message: 'Invalid Username or Password' });
       }
 
       req.logIn(user, function (err) {
@@ -43,6 +40,13 @@ router.post('/login', (req, res, next) => {
       })
     }
   )(req, res, next);
+});
+
+// Logout
+router.get('/logout', (req, res) => {
+  req.logOut();
+  req.flash('success_msg', 'You are logged out');
+  res.send({logout: true, message: 'Logout out'});
 });
 
 module.exports = router;
