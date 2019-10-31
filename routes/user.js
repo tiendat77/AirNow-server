@@ -46,7 +46,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res) => {
   req.logOut();
   req.flash('success_msg', 'You are logged out');
-  res.redirect('/login');
+  res.send({logout: true, message: 'Logout out'});
 });
 
 module.exports = router;

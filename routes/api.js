@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+moment = require('moment'); 
+
 const Influx = require('influx');
 const influx = new Influx.InfluxDB('http://127.0.0.1:8086/AirNow_database');
 
@@ -53,6 +55,48 @@ router.get('/select', (req, res) => {
     .query(qery)
     .then(result => res.status(200).json(result))
     .catch(error => res.status(500).json({ error }));
+});
+
+router.get('/select-aqi', (req, res) => {
+  const range = parseInt(req.query.range);
+  const location = 'thu-duc';
+
+  let limit=0;
+  let query='';
+
+  if (range && !isNaN(range)) {
+    switch(range) {
+      case 1: {
+        query = `SELECT * FROM air_aqi WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT 1`;
+        break;
+      }
+
+      case 7: {
+        limit = moment().subtract(7, 'days').unix();
+        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > ${limit} ORDER BY time DESC`;
+        break;
+      }
+  
+      case 30: {
+        limit = moment().subtract(1, 'months').unix();
+        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > ${limit} ORDER BY time DESC`;
+        break;
+      }
+
+      default: {
+        query = `SELECT * FROM air_aqi WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT ${range}`;
+        break;
+      }
+    }
+
+    influx
+    .query(query)
+    .then(result => res.status(200).json(result))
+    .catch(error => res.status(500).json({ error }));
+  } else {
+    res.send({message: 'Range param is null'});
+  }
+
 });
 
 router.get('/insert', (request, response) => {
