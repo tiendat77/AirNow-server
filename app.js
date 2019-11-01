@@ -65,4 +65,13 @@ const port = process.env.PORT || 8000;
 
 const server = http.createServer(app);
 
-server.listen(port, () => { console.log("Server is running in port:", port) })
+server.listen(port, () => {
+  console.log(`
+   _____ _   _ _____ ____ ___ ____  
+  |_   _| | | | ____/ ___|_ _/ ___| 
+    | | | |_| |  _| \\___ \\| |\\___ \\ 
+    | | |  _  | |___ ___) | | ___) |
+    |_| |_| |_|_____|____/___|____/ 
+  `);
+  console.log("Server is running in port:", port) ;
+})
