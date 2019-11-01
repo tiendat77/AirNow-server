@@ -52,9 +52,8 @@ router.post('/', (req, res) => {
     descript = "Hazardous";
   }
 
-  console.log(`insert aqi=${aqi} description=${descript} location=${location}`);
-
-  if (aqi && location && !isNaN(aqi)) {
+  if ((aqi && !isNaN(aqi)) && (temp && !isNaN(temp)) && (humi && !isNaN(humi)) && location) {
+    console.log(`insert aqi=${aqi} description=${descript} location=${location}`);
     influx
       .writePoints([{
         measurement: 'air_aqi',
@@ -65,13 +64,8 @@ router.post('/', (req, res) => {
         }
       }])
       .catch(error => res.status(500).json({ error }));
-  } else {
-    error += "Fail to insert aqi ";
-    console.log(`insert false`);
-  }
 
-  console.log(`insert temperature=${temp} location=${location}`);
-  if (temp && location && !isNaN(temp)) {
+    console.log(`insert temperature=${temp} location=${location}`);
     influx
       .writePoints([{
         measurement: 'air_temperature',
@@ -80,14 +74,7 @@ router.post('/', (req, res) => {
       }])
       .catch(error => res.status(500).json({ error }));
 
-  } else {
-    error += "Fail to insert temperature";
-    console.log(`insert false`);
-  }
-
-  console.log(`insert humi=${humi} location=${location}`);
-
-  if (humi && location && !isNaN(humi)) {
+    console.log(`insert humi=${humi} location=${location}`);
     influx
       .writePoints([{
         measurement: 'air_humidity',
@@ -95,15 +82,11 @@ router.post('/', (req, res) => {
         fields: { humidity: humi }
       }])
       .catch(error => res.status(500).json({ error }));
-  } else {
-    error += "Fail to insert humidity ";
-    console.log(`insert false`);
+    res.status(200).send({ message: 'Insert successful' });
   }
-
-  if (error) {
-    res.status(500).json({ error })
-  } else {
-    res.status(201).json('success: true all')
+  else {
+    res.status(400).send({ message: 'Bad request' });
+    console.log(`false`);
   }
 });
 
