@@ -144,6 +144,28 @@ router.get('/select-temperature', (req, res) => {
 
 });
 
+router.get('/statistics', (req, res) => {
+  const STATISTIC = [
+    {
+      data: 450,
+      name: 'Visits'
+    },
+    {
+      data: 536,
+      name: 'Uploads'
+    },
+    {
+      data: 1,
+      name: 'Downloads'
+    },
+    {
+      data: 2,
+      name: 'Devices'
+    }
+  ];
+  res.send({ statistics: STATISTIC });
+});
+
 // Delete this 
 router.get('/insert', (request, response) => {
 
