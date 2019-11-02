@@ -5,6 +5,7 @@ moment = require('moment');
 const Influx = require('influx');
 const influx = new Influx.InfluxDB('http://127.0.0.1:8086/AirNow_database');
 
+const statistic = require('../controllers/statistic');
 
 //Test connection
 influx
@@ -48,7 +49,10 @@ router.get('/select-aqi', (req, res) => {
 
     influx
       .query(query)
-      .then(result => res.status(200).json(result))
+      .then(result => {
+        statistic.download();
+        res.status(200).json(result);
+      })
       .catch(error => res.status(500).json({ error }));
   } else {
     res.send({ message: 'Range param is null' });
@@ -92,7 +96,10 @@ router.get('/select-humidity', (req, res) => {
 
     influx
       .query(query)
-      .then(result => res.status(200).json(result))
+      .then(result => {
+        statistic.download();
+        res.status(200).json(result);
+      })
       .catch(error => res.status(500).json({ error }));
   } else {
     res.send({ message: 'Range param is null' });
@@ -136,7 +143,10 @@ router.get('/select-temperature', (req, res) => {
 
     influx
       .query(query)
-      .then(result => res.status(200).json(result))
+      .then(result => {
+        statistic.download();
+        res.status(200).json(result);
+      })
       .catch(error => res.status(500).json({ error }));
   } else {
     res.send({ message: 'Range param is null' });
@@ -144,29 +154,9 @@ router.get('/select-temperature', (req, res) => {
 
 });
 
-router.get('/statistics', (req, res) => {
-  const STATISTIC = [
-    {
-      data: 450,
-      name: 'Visits'
-    },
-    {
-      data: 536,
-      name: 'Uploads'
-    },
-    {
-      data: 1,
-      name: 'Downloads'
-    },
-    {
-      data: 2,
-      name: 'Devices'
-    }
-  ];
-  res.send({ statistics: STATISTIC });
-});
+router.get('/statistics', statistic.getAll);
 
-// Delete this 
+// Delete this
 router.get('/insert', (request, response) => {
 
   var aqi = parseInt(request.query.aqi);
