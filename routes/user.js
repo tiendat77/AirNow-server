@@ -5,9 +5,11 @@ const passport = require('passport');
 
 const { forwardAuthenticated } = require('../config/auth');
 const { ensureAuthenticated } = require('../config/auth');
-//const { logoutAuthenticated } = require('../config/auth');
+
+const statistic = require('../controllers/statistic');
 
 router.get('/', (req, res) => {
+  statistic.visit();
   res.redirect('/login');
 });
 

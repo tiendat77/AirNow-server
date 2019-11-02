@@ -1,11 +1,7 @@
 # Statistic mongodb
 - [ ] db.createCollection("statistics")
-- [ ] db.statistics.insert({visit: 0})
-- [ ] db.statistics.insert({download: 0})
-- [ ] db.statistics.insert({upload: 0})
-- [ ] db.statistics.insert({device: 0})
-
-# Please don't push public/
+- [ ] db.statistics.insert([{title: "visit", value: 0}, {title: "download", value: 0}, {title: "upload", value: 0}, {title: "device", value: 0}])
+- [ ] db.statistics.update({"title":"visit"}, {$inc:{"value": 1}})
 
 # PM2
 ## Start process and name it
@@ -27,3 +23,58 @@ pm2 delete "api"
 ```
 pm2 kill
 ```
+
+# MongoDB query
+## Create database
+```
+use AirNow_database
+```
+
+Check databases
+```
+show dbs
+```
+
+## Drop database:
+```
+use AirNow_database
+db.dropDatabase()
+```
+
+## Create collection
+```
+db.createCollection("COLLECTION_NAME")
+```
+
+## Drop collection
+```
+db.COLLECTION_NAME.drop()
+show collections
+```
+
+## Insert
+```
+db.COLLECTION_NAME.insert(document)
+```
+
+## Query
+```
+db.COLLECTION_NAME.find()
+db.COLLECTION_NAME.find({"title": "visit"})
+```
+
+## Update
+```
+db.COLLECTION_NAME.update({"title": "visit"}, {$set:{"value": 1}})
+```
+
+## Remove
+```
+db.COLLECTION_NAME.remove({"title": "visit"})
+```
+
+## Sort
+```
+db.statistics.find().sort({"title": -1})
+```
+
