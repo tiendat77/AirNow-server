@@ -31,14 +31,14 @@ router.post('/login', (req, res, next) => {
       }
 
       if (!user) {
-        return res.status(401).send({ valid: 0, message: 'Invalid Username or Password' });
+        return res.status(401).json({ valid: 0, message: 'Invalid Username or Password' });
       }
 
       req.logIn(user, function (err) {
         if (err) {
           return next(err);
         }
-        return res.status(200).send({ valid: 1, message: 'Login success' });
+        return res.status(200).json({ valid: 1, message: 'Login success' });
       })
     }
   )(req, res, next);
@@ -48,7 +48,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', ensureAuthenticated, (req, res) => {
   req.logOut();
   req.flash('success_msg', 'You are logged out');
-  res.status(200).send({ logout: true, message: 'Logout out' });
+  res.status(200).json({ logout: true, message: 'Logout out' });
 });
 
 module.exports = router;
