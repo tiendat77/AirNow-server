@@ -29,3 +29,6 @@ Thumbs.db
 
 # Log file
 log/log.log
+
+# Data test file
+data-test/DataCreator.class

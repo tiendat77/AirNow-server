@@ -6,7 +6,7 @@ const getAll = (req, res) => {
   Statistic
     .find({})
     .then(result => {
-      res.json(result);
+      res.json({ statistics: result });
     })
     .catch(error => {
       logger.error(error);
@@ -24,7 +24,7 @@ const visit = () => {
   Statistic
     .updateOne({ title: 'visit' }, {$inc: { value: 1 }})
     .then(result => {
-      logger.info('Visit' + result);
+      logger.info('visited');
     })
     .catch(error => {
       logger.error(error);
@@ -35,7 +35,7 @@ const download = () => {
   Statistic
     .updateOne({ title: 'download' }, {$inc: { value: 1 }})
     .then(result => {
-      logger.info('Download' + result);
+      logger.info('download requested');
     })
     .catch(error => {
       logger.error(error);
@@ -46,7 +46,7 @@ const upload = () => {
   Statistic
     .updateOne({ title: 'upload' }, {$inc: { value: 1 }})
     .then(result => {
-      logger.info('Upload' + result);
+      logger.info('uploaded from esp');
     })
     .catch(error => {
       logger.error(error);
@@ -55,7 +55,7 @@ const upload = () => {
 
 const device = () => {
   Statistic
-    .updateOne({ title: 'device' }, {$inc: { value: 1 }})
+    .updateOne({ title: 'device added' }, {$inc: { value: 1 }})
     .then(result => {
       logger.info('Device' + result);
     })

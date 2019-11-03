@@ -1,0 +1,14 @@
+# DDL
+
+USE DATABASE AirNow_database
+
+# DML
+
+# CONTEXT-DATABASE: AirNow_database
+
+air_aqi,location=binh-thanh aqi=65,description="Moderate" 1572756647
+air_temperature,location=binh-thanh degrees=25 1572756647
+air_humidity,location=binh-thanh humidity=97 1572756647
+air_aqi,location=di-an aqi=75,description="Moderate" 1572756647
+air_temperature,location=di-an degrees=28 1572756647
+air_humidity,location=di-an humidity=89 1572756647
