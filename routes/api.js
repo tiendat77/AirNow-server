@@ -83,7 +83,7 @@ router.get('/select-aqi', (req, res) => {
       .query(query)
       .then(result => {
         statistic.download();
-        res.status(200).json(result);
+        res.status(200).json({ aqi: result });
       })
       .catch(error => res.status(500).json({ error }));
   } else {
