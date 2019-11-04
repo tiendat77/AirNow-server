@@ -6,6 +6,7 @@ const SERVER_URL = 'http://13.59.35.198:8086/AirNow_database';
 const LOCAL_URL = 'http://127.0.0.1:8086/AirNow_database';
 const influx = new Influx.InfluxDB(LOCAL_URL);
 
+const statistic = require('../controllers/statistic');
 router.get('/', (req, res) => {
 
   const result = {
@@ -30,7 +31,7 @@ influx
 router.post('/', (req, res) => {
 
   console.log('ESP32 Post requested!');
-
+  statistic.upload();
   var aqi = parseFloat(req.body.aqi);
   var location = req.body.location;
   var humi = parseFloat(req.body.humi);
