@@ -45,6 +45,23 @@ router.get('/forecast', (req, res) => {
     .catch(error => res.status(500).json({ error }));
 });
 
+router.get('/locations', (req, res) => {
+  influx
+    .query('SELECT "location", "aqi" FROM air_aqi GROUP BY location ORDER BY DESC LIMIT 1')
+    .then(result => {
+      statistic.download();
+      const locations = [];
+
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].location) {
+          locations.push(locationMap.get(result[i].location));
+        }
+      }
+      res.status(200).json({ locations });
+    })
+    .catch(error => res.status(500).json({ error: 'Error has occurred!' }));
+});
+
 router.get('/select-aqi', (req, res) => {
   const range = parseInt(req.query.range);
   let location = req.query.location;
@@ -185,27 +202,5 @@ router.get('/select-temperature', (req, res) => {
   }
 
 });
-
-/* Delete this
-router.get('/insert', (request, response) => {
-
-  var aqi = parseInt(request.query.aqi);
-  var location = request.query.location;
-
-  console.log(`insert aqi=${pH} location=${location}`);
-
-  if (aqi && location && !isNaN(aqi)) {
-    influx.writePoints([{
-      measurement: 'air_aqi',
-      tags: { location: location },
-      fields: { aqi: aqi }
-    }])
-      .then(result => response.status(200).json('success: true'))
-      .catch(error => response.status(500).json({ error }));
-
-  } else {
-    response.status(500).send('Fail to insert record');
-  }
-}); */
 
 module.exports = router;
