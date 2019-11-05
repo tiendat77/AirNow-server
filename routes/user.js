@@ -9,11 +9,11 @@ const { ensureAuthenticated } = require('../config/auth');
 const statistic = require('../controllers/statistic');
 
 router.get('/', (req, res) => {
-  statistic.visit();
   res.redirect('/login');
 });
 
-router.get('/dashboard', ensureAuthenticated, (req, res) => { 
+router.get('/dashboard', ensureAuthenticated, (req, res) => {
+  statistic.visit();
   res.sendFile(path.join(__dirname, '..', 'public/airnow-dashboard', 'index.html'));
 });
 
