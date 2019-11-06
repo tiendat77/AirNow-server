@@ -29,7 +29,7 @@ public class DataCreator {
   static int minHumi = 70;
 
   // Line format
-  static String location = "thu\\ duc";
+  static String location = "Thủ\\ Đức";
   static String lineAqi = "air_aqi,location=%s aqi=%d,description=\"%s\" %d\n";   // location: string, aqi: int, description: string timestamp: long
   static String lineTemperature = "air_temperature,location=%s degrees=%d %d\n";   // location: string, degrees: int timstamp: long
   static String lineHumidity = "air_humidity,location=%s humidity=%d %d\n";        // location: string, humidity: int timstamp: long
@@ -37,10 +37,10 @@ public class DataCreator {
   public static void main(String[] args) {
     System.out.println("Creating sample data for influxdb");
 
-    // init();
-    // createAQI();
-    // createTemperature();
-    // createHumidity();
+    init();
+    createAQI();
+    createTemperature();
+    createHumidity();
 
     System.out.println("Done!");
   }
