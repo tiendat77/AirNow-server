@@ -147,7 +147,7 @@ router.get('/select-humidity', (req, res) => {
       .query(query)
       .then(result => {
         statistic.download();
-        res.status(200).json(result);
+        res.status(200).json({ humidity: result });
       })
       .catch(error => res.status(500).json({ error }));
   } else {
@@ -194,7 +194,7 @@ router.get('/select-temperature', (req, res) => {
       .query(query)
       .then(result => {
         statistic.download();
-        res.status(200).json(result);
+        res.status(200).json({ temperature: result });
       })
       .catch(error => res.status(500).json({ error }));
   } else {
