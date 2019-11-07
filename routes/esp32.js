@@ -1,4 +1,5 @@
 const express = require('express');
+const logger = require('../log/logger');
 const router = express.Router();
 const Influx = require('influx');
 const Device = require('../models/Device');
@@ -30,7 +31,7 @@ influx
 
 router.post('/', (req, res) => {
 
-  console.log('ESP32 Post requested!');
+  logger.info('ESP32 Post requested!');
   statistic.upload();
   var aqi = parseFloat(req.body.aqi);
   var location = req.body.location;
@@ -57,6 +58,7 @@ router.post('/', (req, res) => {
     Device.findOne({ device_id: device_id }, function (err, device) {
       if (err) { return done(err); }
       if (!device) {
+        logger.info('Unauthorized');
         res.status(401).send({ message: 'Unauthorized' });
       }
       else {
@@ -90,18 +92,19 @@ router.post('/', (req, res) => {
               fields: { humidity: humi }
             }])
             .catch(error => res.status(500).json({ error }));
+          logger.info('Insert successful');
           res.status(200).send({ message: 'Insert successful' });
         }
         else {
+          logger.info('Insert flase');
           res.status(400).send({ message: 'Bad request' });
-          console.log(`false`);
         }
       }
     })
 
   } else {
     res.status(401).send({ message: 'Unauthorized' });
-    console.log(`false`);
+    logger.info('Unauthorized');
   };
 
 });
