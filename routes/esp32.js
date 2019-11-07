@@ -103,8 +103,9 @@ router.post('/', (req, res) => {
     })
 
   } else {
-    res.status(401).send({ message: 'Unauthorized' });
     logger.info('Unauthorized');
+    res.status(401).send({ message: 'Unauthorized' });
+    
   };
 
 });
