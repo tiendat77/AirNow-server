@@ -14,7 +14,8 @@ influx
   .then(names => console.log('InfluxDB Connected: ' + names.join(', ')))
   .catch(error => console.error({ error }));
 
-router.get('/statistics', ensureAuthenticatedApi, statistic.getAll);
+// router.get('/statistics', ensureAuthenticatedApi, statistic.getAll);
+router.get('/statistics', statistic.getAll);
 
 router.get('/forecast', (req, res) => {
   const query = [
@@ -50,7 +51,13 @@ router.get('/locations', (req, res) => {
     .query('SELECT "location", "aqi" FROM air_aqi GROUP BY location ORDER BY DESC LIMIT 1')
     .then(result => {
       statistic.download();
-      res.status(200).json({ locations: result });
+      const locations = [];
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].location) {
+          locations.push(result[i].location);
+        }
+      }
+      res.status(200).json({ locations });
     })
     .catch(error => res.status(500).json({ error: 'Error has occurred!' }));
 });

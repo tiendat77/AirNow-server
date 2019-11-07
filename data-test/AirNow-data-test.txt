@@ -1,1 +1,20 @@
+# DDL
 
+USE DATABASE AirNow_database
+
+# DML
+
+# CONTEXT-DATABASE: AirNow_database
+
+air_aqi,location=Đông\ Hòa aqi=157,description="Unhealthy" 1572962094
+air_aqi,location=Đông\ Hòa aqi=171,description="Unhealthy" 1572969294
+air_temperature,location=Đông\ Hòa degrees=31 1572962094
+air_temperature,location=Đông\ Hòa degrees=32 1572969294
+air_humidity,location=Đông\ Hòa humidity=85 1572962094
+air_humidity,location=Đông\ Hòa humidity=75 1572969294
+air_aqi,location=Bình\ Thạnh aqi=68,description="Moderate" 1572962094
+air_aqi,location=Bình\ Thạnh aqi=63,description="Moderate" 1572969294
+air_temperature,location=Bình\ Thạnh degrees=32 1572962094
+air_temperature,location=Bình\ Thạnh degrees=34 1572969294
+air_humidity,location=Bình\ Thạnh humidity=73 1572962094
+air_humidity,location=Bình\ Thạnh humidity=81 1572969294
