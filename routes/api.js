@@ -6,7 +6,7 @@ const Influx = require('influx');
 const influx = new Influx.InfluxDB('http://127.0.0.1:8086/AirNow_database');
 
 const statistic = require('../controllers/statistic');
-const locationMap = require('../controllers/location.map');
+const { ensureAuthenticatedApi } = require('../config/auth');
 
 // Test connection
 influx
@@ -14,7 +14,7 @@ influx
   .then(names => console.log('InfluxDB Connected: ' + names.join(', ')))
   .catch(error => console.error({ error }));
 
-router.get('/statistics', statistic.getAll);
+router.get('/statistics', ensureAuthenticatedApi, statistic.getAll);
 
 router.get('/forecast', (req, res) => {
   const query = [
@@ -37,7 +37,7 @@ router.get('/forecast', (req, res) => {
         object['temperature'] = result[1][i].degrees;
         object['humidity'] = result[2][i].humidity;
         object['pollutant'] = 0; // TODO: fix this line
-        object['location'] = locationMap.get(result[0][i].location);
+        object['location'] = result[0][i].location;
         forecast.push(object);
       }
       res.status(200).json({ forecast });
@@ -50,14 +50,7 @@ router.get('/locations', (req, res) => {
     .query('SELECT "location", "aqi" FROM air_aqi GROUP BY location ORDER BY DESC LIMIT 1')
     .then(result => {
       statistic.download();
-      const locations = [];
-
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].location) {
-          locations.push(locationMap.get(result[i].location));
-        }
-      }
-      res.status(200).json({ locations });
+      res.status(200).json({ locations: result });
     })
     .catch(error => res.status(500).json({ error: 'Error has occurred!' }));
 });
@@ -147,7 +140,7 @@ router.get('/select-humidity', (req, res) => {
       .query(query)
       .then(result => {
         statistic.download();
-        res.status(200).json(result);
+        res.status(200).json({ humidity: result });
       })
       .catch(error => res.status(500).json({ error }));
   } else {
@@ -194,7 +187,7 @@ router.get('/select-temperature', (req, res) => {
       .query(query)
       .then(result => {
         statistic.download();
-        res.status(200).json(result);
+        res.status(200).json({ temperature: result });
       })
       .catch(error => res.status(500).json({ error }));
   } else {
