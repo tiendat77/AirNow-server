@@ -69,7 +69,7 @@ router.get('/select-aqi', (req, res) => {
   let query = '';
   console.log('Request aqi' +  range +'&' + location);
 
-  if (location !== undefined) {
+  if (location === undefined) {
     location = 'Thủ Đức';
   }
   if (range && !isNaN(range)) {
