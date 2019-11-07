@@ -67,9 +67,10 @@ router.get('/select-aqi', (req, res) => {
   let location = req.query.location;
   let limit = 0;
   let query = '';
+  console.log('Request aqi' +  range +'&' + location);
 
-  if (!location) {
-    location = 'thu-duc';
+  if (location !== undefined) {
+    location = 'Thủ Đức';
   }
   if (range && !isNaN(range)) {
     switch (range) {
