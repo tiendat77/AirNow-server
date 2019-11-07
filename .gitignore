@@ -5,7 +5,6 @@
 
 # dependencies
 /node_modules
-/public/airnow-dashboard
 
 # IDEs and editors
 /.idea

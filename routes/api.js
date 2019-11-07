@@ -4,7 +4,7 @@ moment = require('moment');
 
 const Influx = require('influx');
 const influx = new Influx.InfluxDB('http://127.0.0.1:8086/AirNow_database');
-const { ensureAuthenticatedApi } = require('../config/auth');
+
 const statistic = require('../controllers/statistic');
 const locationMap = require('../controllers/location.map');
 
@@ -14,7 +14,7 @@ influx
   .then(names => console.log('InfluxDB Connected: ' + names.join(', ')))
   .catch(error => console.error({ error }));
 
-router.get('/statistics', ensureAuthenticatedApi, statistic.getAll);
+router.get('/statistics', statistic.getAll);
 
 router.get('/forecast', (req, res) => {
   const query = [
@@ -30,7 +30,7 @@ router.get('/forecast', (req, res) => {
       let k = 0;
 
       for (let i = 0; i < result[0].length; i++) {
-        let object = {};
+        let object = {}; 
         object['time'] = result[0][i].time;
         object['aqi'] = result[0][i].aqi;
         object['status'] = result[0][i].description;
@@ -147,7 +147,7 @@ router.get('/select-humidity', (req, res) => {
       .query(query)
       .then(result => {
         statistic.download();
-        res.status(200).json({ humidity: result });
+        res.status(200).json(result);
       })
       .catch(error => res.status(500).json({ error }));
   } else {
@@ -194,7 +194,7 @@ router.get('/select-temperature', (req, res) => {
       .query(query)
       .then(result => {
         statistic.download();
-        res.status(200).json({ temperature: result });
+        res.status(200).json(result);
       })
       .catch(error => res.status(500).json({ error }));
   } else {
