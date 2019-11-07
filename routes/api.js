@@ -75,7 +75,7 @@ router.get('/select-aqi', (req, res) => {
   if (range && !isNaN(range)) {
     switch (range) {
       case 1: {
-        query = `SELECT * FROM air_aqi WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT 1`;
+        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > now() - 1d  GROUP BY * ORDER BY DESC`;
         break;
       }
 

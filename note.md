@@ -6,6 +6,11 @@
 # Forecast influxdb
 - [ ] influx -import -path=AirNow-data-test.txt -precision=s -database=AirNow_database
 
+# Kill process on port 8000
+```
+sudo kill -9 `sudo lsof -t -i:8000`
+```
+
 # PM2
 ## Start process and name it
 ```
