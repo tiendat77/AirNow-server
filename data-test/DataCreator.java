@@ -16,7 +16,7 @@ public class DataCreator {
   //Output file name
   static File file = new File("AirNow-data-test.txt");
 
-  static int numberOfRecord = 720;
+  static int numberOfRecord = 360;
   static int timestampStart = 1569891600;
 
   // Random scope
@@ -29,7 +29,7 @@ public class DataCreator {
   static int minHumi = 70;
 
   // Line format
-  static String location = "thu-duc";
+  static String location = "Thủ\\ Đức";
   static String lineAqi = "air_aqi,location=%s aqi=%d,description=\"%s\" %d\n";   // location: string, aqi: int, description: string timestamp: long
   static String lineTemperature = "air_temperature,location=%s degrees=%d %d\n";   // location: string, degrees: int timstamp: long
   static String lineHumidity = "air_humidity,location=%s humidity=%d %d\n";        // location: string, humidity: int timstamp: long
@@ -75,7 +75,7 @@ public class DataCreator {
         line = String.format(lineAqi, location, aqi, descript, timestamp);
 
         printWriter.print(line);
-        timestamp += 3600;  //Increase 1 hour
+        timestamp += 7200;  //Increase 1 hour
       }
 
       fileWriter.flush();
@@ -119,7 +119,7 @@ public class DataCreator {
         line = String.format(lineTemperature, location, temp, timestamp);
 
         printWriter.print(line);
-        timestamp += 3600;  //Increase 1 hour
+        timestamp += 7200;  //Increase 1 hour
       }
 
       fileWriter.flush();
@@ -143,7 +143,7 @@ public class DataCreator {
         line = String.format(lineHumidity, location, humi, timestamp);
 
         printWriter.print(line);
-        timestamp += 3600;  //Increase 1 hour
+        timestamp += 7200;  //Increase 1 hour
       }
 
       fileWriter.flush();
