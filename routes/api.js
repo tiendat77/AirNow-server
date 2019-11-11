@@ -37,7 +37,7 @@ router.get('/forecast', (req, res) => {
         object['status'] = result[0][i].description;
         object['temperature'] = result[1][i].degrees;
         object['humidity'] = result[2][i].humidity;
-        object['pollutant'] = 0; // TODO: fix this line
+        object['pollutant'] = result[0][i].pollutant;
         object['location'] = result[0][i].location;
         forecast.push(object);
       }

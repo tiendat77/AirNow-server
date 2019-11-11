@@ -31,14 +31,14 @@ influx
 
 router.post('/', (req, res) => {
 
-  logger.info('ESP32 Post requested!');
+  logger.info('ESP32 post requested!');
   statistic.upload();
   var aqi = parseFloat(req.body.aqi);
+  var pollutant = parseFloat(req.body.pollutant);
   var location = req.body.location;
   var humi = parseFloat(req.body.humi);
   var temp = parseFloat(req.body.temp);
   var device_id = parseInt(req.body.device_id);
-  var error = "";
   var descript = "";
 
   if (aqi > 0 && aqi < 51) {
@@ -54,22 +54,23 @@ router.post('/', (req, res) => {
   } else if (aqi > 300) {
     descript = "Hazardous";
   }
+
   if (device_id && !isNaN(device_id)) {
     Device.findOne({ device_id: device_id }, function (err, device) {
       if (err) { return done(err); }
       if (!device) {
         logger.info('Unauthorized');
-        res.status(401).send({ message: 'Unauthorized' });
-      }
-      else {
-        if ((aqi && !isNaN(aqi)) && (temp && !isNaN(temp)) && (humi && !isNaN(humi)) && location) {
-          console.log(`insert aqi=${aqi} description=${descript} location=${location}`);
+        res.status(401).json({ message: 'Unauthorized' });
+      } else {
+        if ((aqi && !isNaN(aqi)) && (pollutant && !isNaN(pollutant)) && (temp && !isNaN(temp)) && (humi && !isNaN(humi)) && location) {
+          console.log(`insert aqi=${aqi} pollutant=${pollutant} description=${descript} location=${location}`);
           influx
             .writePoints([{
               measurement: 'air_aqi',
               tags: { location: location },
               fields: {
                 aqi: aqi,
+                pollutant: pollutant,
                 description: descript
               }
             }])
@@ -93,11 +94,11 @@ router.post('/', (req, res) => {
             }])
             .catch(error => res.status(500).json({ error }));
           logger.info('Insert successful');
-          res.status(200).send({ message: 'Insert successful' });
+          res.status(200).json({ message: 'Insert successful' });
         }
         else {
           logger.info('Insert flase');
-          res.status(400).send({ message: 'Bad request' });
+          res.status(400).json({ message: 'Bad request' });
         }
       }
     })
