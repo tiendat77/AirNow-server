@@ -1,7 +1,8 @@
 const express = require('express');
+const logger = require('../log/logger');
 const router = express.Router();
 const Influx = require('influx');
-
+const Device = require('../models/Device');
 const SERVER_URL = 'http://13.59.35.198:8086/AirNow_database';
 const LOCAL_URL = 'http://127.0.0.1:8086/AirNow_database';
 const influx = new Influx.InfluxDB(LOCAL_URL);
@@ -30,12 +31,13 @@ influx
 
 router.post('/', (req, res) => {
 
-  console.log('ESP32 Post requested!');
+  logger.info('ESP32 Post requested!');
   statistic.upload();
   var aqi = parseFloat(req.body.aqi);
   var location = req.body.location;
   var humi = parseFloat(req.body.humi);
   var temp = parseFloat(req.body.temp);
+  var device_id = parseInt(req.body.device_id);
   var error = "";
   var descript = "";
 
@@ -52,43 +54,60 @@ router.post('/', (req, res) => {
   } else if (aqi > 300) {
     descript = "Hazardous";
   }
+  if (device_id && !isNaN(device_id)) {
+    Device.findOne({ device_id: device_id }, function (err, device) {
+      if (err) { return done(err); }
+      if (!device) {
+        logger.info('Unauthorized');
+        res.status(401).send({ message: 'Unauthorized' });
+      }
+      else {
+        if ((aqi && !isNaN(aqi)) && (temp && !isNaN(temp)) && (humi && !isNaN(humi)) && location) {
+          console.log(`insert aqi=${aqi} description=${descript} location=${location}`);
+          influx
+            .writePoints([{
+              measurement: 'air_aqi',
+              tags: { location: location },
+              fields: {
+                aqi: aqi,
+                description: descript
+              }
+            }])
+            .catch(error => res.status(500).json({ error }));
 
-  if ((aqi && !isNaN(aqi)) && (temp && !isNaN(temp)) && (humi && !isNaN(humi)) && location) {
-    console.log(`insert aqi=${aqi} description=${descript} location=${location}`);
-    influx
-      .writePoints([{
-        measurement: 'air_aqi',
-        tags: { location: location },
-        fields: {
-          aqi: aqi,
-          description: descript
+          console.log(`insert temperature=${temp} location=${location}`);
+          influx
+            .writePoints([{
+              measurement: 'air_temperature',
+              tags: { location: location },
+              fields: { degrees: temp }
+            }])
+            .catch(error => res.status(500).json({ error }));
+
+          console.log(`insert humi=${humi} location=${location}`);
+          influx
+            .writePoints([{
+              measurement: 'air_humidity',
+              tags: { location: location },
+              fields: { humidity: humi }
+            }])
+            .catch(error => res.status(500).json({ error }));
+          logger.info('Insert successful');
+          res.status(200).send({ message: 'Insert successful' });
         }
-      }])
-      .catch(error => res.status(500).json({ error }));
+        else {
+          logger.info('Insert flase');
+          res.status(400).send({ message: 'Bad request' });
+        }
+      }
+    })
 
-    console.log(`insert temperature=${temp} location=${location}`);
-    influx
-      .writePoints([{
-        measurement: 'air_temperature',
-        tags: { location: location },
-        fields: { degrees: temp }
-      }])
-      .catch(error => res.status(500).json({ error }));
+  } else {
+    logger.info('Unauthorized');
+    res.status(401).send({ message: 'Unauthorized' });
+    
+  };
 
-    console.log(`insert humi=${humi} location=${location}`);
-    influx
-      .writePoints([{
-        measurement: 'air_humidity',
-        tags: { location: location },
-        fields: { humidity: humi }
-      }])
-      .catch(error => res.status(500).json({ error }));
-    res.status(200).send({ message: 'Insert successful' });
-  }
-  else {
-    res.status(400).send({ message: 'Bad request' });
-    console.log(`false`);
-  }
 });
 
 module.exports = router;
