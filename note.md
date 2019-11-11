@@ -1,3 +1,7 @@
+# Device mongodb
+- [ ] db.createCollection("devices")
+- [ ] db.devices.insert({device_id: 123})
+
 # Statistic mongodb
 - [ ] db.createCollection("statistics")
 - [ ] db.statistics.insert([{title: "visit", value: 0}, {title: "download", value: 0}, {title: "upload", value: 0}, {title: "device", value: 0}])
