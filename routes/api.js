@@ -65,7 +65,6 @@ router.get('/locations', (req, res) => {
 router.get('/select-aqi', (req, res) => {
   const range = parseInt(req.query.range);
   let location = req.query.location;
-  let limit = 0;
   let query = '';
   console.log('Request aqi' +  range +'&' + location);
 
@@ -80,14 +79,12 @@ router.get('/select-aqi', (req, res) => {
       }
 
       case 7: {
-        limit = moment().subtract(7, 'days').unix();
-        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > ${limit} ORDER BY time DESC`;
+        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > now() -7d ORDER BY time DESC`;
         break;
       }
 
       case 30: {
-        limit = moment().subtract(1, 'months').unix();
-        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > ${limit} ORDER BY time DESC`;
+        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > now() - 30d ORDER BY time DESC`;
         break;
       }
 
@@ -175,7 +172,7 @@ router.get('/select-temperature', (req, res) => {
 
       case 7: {
         limit = moment().subtract(7, 'days').unix();
-        query = `SELECT * FROM air_temperature WHERE location='${location}' AND time > ${limit} ORDER BY time DESC`;
+        query = `SELECT * FROM air_temperature WHERE location='${location}' AND time > now() - 7d ORDER BY time DESC`;
         break;
       }
 
