@@ -74,7 +74,7 @@ router.get('/select-aqi', (req, res) => {
   if (range && !isNaN(range)) {
     switch (range) {
       case 1: {
-        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > now() - 1d  GROUP BY * ORDER BY DESC`;
+        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > now() - 1d  GROUP BY * ORDER BY time DESC`;
         break;
       }
 
@@ -110,28 +110,25 @@ router.get('/select-aqi', (req, res) => {
 router.get('/select-humidity', (req, res) => {
   const range = parseInt(req.query.range);
   let location = req.query.location;
-  let limit = 0;
   let query = '';
 
   if (!location) {
-    location = 'thu-duc';
+    location = 'Thủ Đức';
   }
   if (range && !isNaN(range)) {
     switch (range) {
       case 1: {
-        query = `SELECT * FROM air_humidity WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT 1`;
+        query = `SELECT * FROM air_humidity WHERE location='${location}' AND time > now() - 1d GROUP BY * ORDER BY time DESC`;
         break;
       }
 
       case 7: {
-        limit = moment().subtract(7, 'days').unix();
-        query = `SELECT * FROM air_humidity WHERE location='${location}' AND time > ${limit} ORDER BY time DESC`;
+        query = `SELECT * FROM air_humidity WHERE location='${location}' AND time > now() - 7d ORDER BY time DESC`;
         break;
       }
 
       case 30: {
-        limit = moment().subtract(1, 'months').unix();
-        query = `SELECT * FROM air_humidity WHERE location='${location}' AND time > ${limit} ORDER BY time DESC`;
+        query = `SELECT * FROM air_humidity WHERE location='${location}' AND time > now() - 30d ORDER BY time DESC`;
         break;
       }
 
@@ -157,28 +154,25 @@ router.get('/select-humidity', (req, res) => {
 router.get('/select-temperature', (req, res) => {
   const range = parseInt(req.query.range);
   let location = req.query.location;
-  let limit = 0;
   let query = '';
 
   if (!location) {
-    location = 'thu-duc';
+    location = 'Thủ Đức';
   }
   if (range && !isNaN(range)) {
     switch (range) {
       case 1: {
-        query = `SELECT * FROM air_temperature WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT 1`;
+        query = `SELECT * FROM air_temperature WHERE location='${location}' AND time > now() - 1d GROUP BY * ORDER BY time DESC`;
         break;
       }
 
       case 7: {
-        limit = moment().subtract(7, 'days').unix();
         query = `SELECT * FROM air_temperature WHERE location='${location}' AND time > now() - 7d ORDER BY time DESC`;
         break;
       }
 
       case 30: {
-        limit = moment().subtract(1, 'months').unix();
-        query = `SELECT * FROM air_temperature WHERE location='${location}' AND time > ${limit} ORDER BY time DESC`;
+        query = `SELECT * FROM air_temperature WHERE location='${location}' AND time > now() - 30d ORDER BY time DESC`;
         break;
       }
 
