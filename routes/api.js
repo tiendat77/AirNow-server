@@ -66,7 +66,8 @@ router.get('/select-aqi', (req, res) => {
   const range = parseInt(req.query.range);
   let location = req.query.location;
   let query = '';
-  console.log('Request aqi' +  range +'&' + location);
+  console.log('Request aqi ' +  range +' & ' + location);
+  console.log('req query', req.query);
 
   if (location === undefined) {
     location = 'Thủ Đức';

@@ -7,6 +7,10 @@
 - [ ] db.statistics.insert([{title: "visit", value: 0}, {title: "download", value: 0}, {title: "upload", value: 0}, {title: "device", value: 0}])
 - [ ] db.statistics.update({"title":"visit"}, {$inc:{"value": 1}})
 
+# Users mongodb
+- [] db.users.insert({ name: "TienDat", username: "airnow", password: "airnow" })
+- [] db.users.insert({ name: "TienDat", username: "TienDat", password: "TienDat" })
+
 # Forecast influxdb
 - [ ] influx -import -path=AirNow-data-test.txt -precision=s -database=AirNow_database
 
