@@ -19,7 +19,8 @@ mongoose
   .connect(db,
     {
       useUnifiedTopology: true,
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useFindAndModify: false
     }
   )
   .then(() => console.log('MongoDB Connected'))
@@ -57,9 +58,14 @@ app.use(function (req, res, next) {
 
 // Routes
 app
-.use('/', require('./routes/user'))
-.use('/api', require('./routes/api'))
-.use('/esp32', require('./routes/esp32'))
+  .use('/', require('./routes/user'))
+  .use('/api', require('./routes/api'))
+  .use('/esp32', require('./routes/esp32'))
+  .use('/admin', require('./routes/admin'))
+
+///////////////////////////////////////////////////
+///////////////       RUN      ////////////////////
+///////////////////////////////////////////////////
 
 const port = process.env.PORT || 8000;
 

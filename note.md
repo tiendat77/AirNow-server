@@ -8,8 +8,10 @@
 - [ ] db.statistics.update({"title":"visit"}, {$inc:{"value": 1}})
 
 # Users mongodb
-- [] db.users.insert({ name: "TienDat", username: "airnow", password: "airnow" })
-- [] db.users.insert({ name: "TienDat", username: "TienDat", password: "TienDat" })
+- [] db.createCollection("users")
+- [] db.users.insert({ name: "AirNow", email: "airnow@gmail.com", username: "airnow", password: "170587e83d7f4c5e3dd5e0d02198bc64" })
+- [] db.users.insert({ name: "Mr Test", email: "mr.test@gmail.com", username: "test", password: "f5d1278e8109edd94e1e4197e04873b9" })
+- [] db.users.insert({ name: "Tien Dat", email: "tiendat@gmail.com", username: "tiendat", password: "5f0ee0f5466db4834090d7118aa3878a" })
 
 # Forecast influxdb
 - [ ] influx -import -path=AirNow-data-test.txt -precision=s -database=AirNow_database

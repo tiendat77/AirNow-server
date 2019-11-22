@@ -62,35 +62,43 @@ router.get('/locations', (req, res) => {
     .catch(error => res.status(500).json({ error: 'Error has occurred!' }));
 });
 
-router.get('/select-aqi', (req, res) => {
+router.get('/airdata', (req, res) => {
   const range = parseInt(req.query.range);
   let location = req.query.location;
-  let query = '';
-  console.log('Request aqi ' +  range +' & ' + location);
-  console.log('req query', req.query);
+  const query = [];
+  console.log('Requset air data ', req.query);
 
   if (location === undefined) {
     location = 'Thủ Đức';
   }
+
   if (range && !isNaN(range)) {
     switch (range) {
       case 1: {
-        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > now() - 1d  GROUP BY * ORDER BY time DESC`;
+        query.push(`SELECT * FROM air_aqi WHERE location='${location}' AND time > now() - 1d  GROUP BY * ORDER BY time DESC`);
+        query.push(`SELECT * FROM air_humidity WHERE location='${location}' AND time > now() - 1d  GROUP BY * ORDER BY time DESC`);
+        query.push(`SELECT * FROM air_temperature WHERE location='${location}' AND time > now() - 1d  GROUP BY * ORDER BY time DESC`);
         break;
       }
 
       case 7: {
-        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > now() -7d ORDER BY time DESC`;
+        query.push(`SELECT * FROM air_aqi WHERE location='${location}' AND time > now() -7d ORDER BY time DESC`);
+        query.push(`SELECT * FROM air_humidity WHERE location='${location}' AND time > now() -7d ORDER BY time DESC`);
+        query.push(`SELECT * FROM air_temperature WHERE location='${location}' AND time > now() -7d ORDER BY time DESC`);
         break;
       }
 
       case 30: {
-        query = `SELECT * FROM air_aqi WHERE location='${location}' AND time > now() - 30d ORDER BY time DESC`;
+        query.push(`SELECT * FROM air_aqi WHERE location='${location}' AND time > now() - 30d ORDER BY time DESC`);
+        query.push(`SELECT * FROM air_humidity WHERE location='${location}' AND time > now() - 30d ORDER BY time DESC`);
+        query.push(`SELECT * FROM air_temperature WHERE location='${location}' AND time > now() - 30d ORDER BY time DESC`);
         break;
       }
 
       default: {
-        query = `SELECT * FROM air_aqi WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT ${range}`;
+        query.push(`SELECT * FROM air_aqi WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT ${range}`);
+        query.push(`SELECT * FROM air_humidity WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT ${range}`);
+        query.push(`SELECT * FROM air_temperature WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT ${range}`);
         break;
       }
     }
@@ -99,101 +107,16 @@ router.get('/select-aqi', (req, res) => {
       .query(query)
       .then(result => {
         statistic.download();
-        res.status(200).json({ aqi: result });
+        const data = {};
+        data['aqi'] = result[0];
+        data['humidity'] = result[1];
+        data['temperature'] = result[2];
+        res.status(200).json(data);
       })
       .catch(error => res.status(500).json({ error }));
   } else {
-    res.send({ message: 'Range param is null' });
+    res.status(400).json({ message: 'Null param' });
   }
-
-});
-
-router.get('/select-humidity', (req, res) => {
-  const range = parseInt(req.query.range);
-  let location = req.query.location;
-  let query = '';
-
-  if (!location) {
-    location = 'Thủ Đức';
-  }
-  if (range && !isNaN(range)) {
-    switch (range) {
-      case 1: {
-        query = `SELECT * FROM air_humidity WHERE location='${location}' AND time > now() - 1d GROUP BY * ORDER BY time DESC`;
-        break;
-      }
-
-      case 7: {
-        query = `SELECT * FROM air_humidity WHERE location='${location}' AND time > now() - 7d ORDER BY time DESC`;
-        break;
-      }
-
-      case 30: {
-        query = `SELECT * FROM air_humidity WHERE location='${location}' AND time > now() - 30d ORDER BY time DESC`;
-        break;
-      }
-
-      default: {
-        query = `SELECT * FROM air_humidity WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT ${range}`;
-        break;
-      }
-    }
-
-    influx
-      .query(query)
-      .then(result => {
-        statistic.download();
-        res.status(200).json({ humidity: result });
-      })
-      .catch(error => res.status(500).json({ error }));
-  } else {
-    res.send({ message: 'Range param is null' });
-  }
-
-});
-
-router.get('/select-temperature', (req, res) => {
-  const range = parseInt(req.query.range);
-  let location = req.query.location;
-  let query = '';
-
-  if (!location) {
-    location = 'Thủ Đức';
-  }
-  if (range && !isNaN(range)) {
-    switch (range) {
-      case 1: {
-        query = `SELECT * FROM air_temperature WHERE location='${location}' AND time > now() - 1d GROUP BY * ORDER BY time DESC`;
-        break;
-      }
-
-      case 7: {
-        query = `SELECT * FROM air_temperature WHERE location='${location}' AND time > now() - 7d ORDER BY time DESC`;
-        break;
-      }
-
-      case 30: {
-        query = `SELECT * FROM air_temperature WHERE location='${location}' AND time > now() - 30d ORDER BY time DESC`;
-        break;
-      }
-
-      default: {
-        query = `SELECT * FROM air_temperature WHERE location='${location}' GROUP BY * ORDER BY DESC LIMIT ${range}`;
-        break;
-      }
-    }
-
-    influx
-      .query(query)
-      .then(result => {
-        statistic.download();
-        res.status(200).json({ temperature: result });
-      })
-      .catch(error => res.status(500).json({ error }));
-  } else {
-    res.json({ message: 'Range param is null' });
-  }
-
 });
 
 module.exports = router;
