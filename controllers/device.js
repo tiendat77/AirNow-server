@@ -1,5 +1,4 @@
-const User = require('../models/User');
-const crypto = require('crypto');
+const Device = require('../models/Device');
 
 const CODE = [
   { code: '93cf8cb6e31a3c5fddc70e8a0bb86075' },
@@ -7,14 +6,13 @@ const CODE = [
   { code: '485c4188d9161c3b7ff5c187151bfcb6' },
 ];
 
-const getUserList = (req, res) => {
-
+const deviceList = (req, res) => {
   const code = req.body.code;
-
+  
   const validCode = CODE.filter(d => d.code === code);
   
   if (validCode && validCode[0] && validCode[0].code) {
-    User
+    Device
       .find({})
       .then(result => {
         res.status(200).json({ dataList: result });
@@ -23,85 +21,73 @@ const getUserList = (req, res) => {
     res.status(401).json({ error: 'unauthorized' });
   }
 
-}
+};
 
-const createUser = (req, res) => {
+const createDevice = (req, res) => {
   const code = req.body.code;
-  const name = req.body.name;
-  const username = req.body.username;
-  const email = req.body.email;
-  const password = req.body.password;
+  const id = req.body.id;
+  const location = req.body.location;
 
   const validCode = CODE.filter(d => d.code === code);
 
   if (validCode && validCode[0] && validCode[0].code) {
-    if (username && email && name) {
-      User
-      .findOne({ username: username }, (err, doc) => {
+    if (id && location) {
+      Device.findOne({ id: id }, (err, doc) =>{
         if (err) {
           res.status(500).json({ error: 'Something went wrong!' });
           return;
         }
         if (doc) {
-          res.status(400).json({ error: 'Username is already exists' });
+          res.status(400).json({ error: 'Device id is already exists' });
           return;
         }
 
-        var hash;
-        if (password) {
-          hash = crypto.createHash('md5').update(password).digest('hex');
-        } else {
-          hash = crypto.createHash('md5').update('123456').digest('hex');
-        }
-
-        const newUser = new User({
-          name: name,
-          username: username,
-          email: email,
-          password: hash
+        const newDevice = new Device({
+          id: id,
+          location: location
         });
 
-        newUser.save((err, doc) => {
+        newDevice.save((err, doc) => {
           if (err) {
             console.error(err);
             res.status(500).json({ error: 'Something went wrong!' })
             return;
           }
-          res.status(200).json({ message: 'User created!' });
-        });
+          res.status(200).json({ message: 'Device created!' });
+        })
       });
+
     } else {
       res.status(400).json({ error: 'Bad request' });
     }
+
   } else {
     res.status(401).json({ error: 'unauthorized' });
   }
 };
 
-const updateUser = (req, res) => {
+const updateDevice = (req, res) => {
   const code = req.body.code;
-  const name = req.body.name;
-  const username = req.body.username;
-  const email = req.body.email;
+  const id = req.body.id;
+  const location = req.body.location;
 
   const validCode = CODE.filter(d => d.code === code);
 
   if (validCode && validCode[0] && validCode[0].code) {
 
-    if (username && email && name) {
-      const filter = { username: username };
+    if (id && location) {
+      const filter = { id: id };
       const update = {
-        name: name,
-        email: email
+        location: location
       };
 
-      User.findOneAndUpdate(filter, update, (err, doc) => {
+      Device.findOneAndUpdate(filter, update, (err, doc) => {
         if (err) {
           console.error(err);
           res.status(500).json({ error: 'Something went wrong!' })
           return;
         }
-        res.status(200).json({ message: 'User updated!' });
+        res.status(200).json({ message: 'Device updated!' });
       });
     } else {
       res.status(400).json({ error: 'Bad request' });
@@ -111,53 +97,24 @@ const updateUser = (req, res) => {
   }
 };
 
-const changePassword = (req, res) => {
+const removeDevice = (req, res) => {
   const code = req.body.code;
-  const username = req.body.username;
-  const password = req.body.password;
+  const id = req.body.id;
 
   const validCode = CODE.filter(d => d.code === code);
 
   if (validCode && validCode[0] && validCode[0].code) {
-    if (username && password) {
-      const filter = { username: username };
-      const hash = crypto.createHash('md5').update(password).digest('hex');
-      const update = { password: hash };
-
-      User.findOneAndUpdate(filter, update, (err, doc) => {
-        if (err) {
-          console.error(err);
-          res.status(500).json({ error: 'Something went wrong!' })
-          return;
-        }
-        res.status(200).json({ message: 'Password updated!' });
-      });
-    } else {
-      res.status(400).json({ error: 'Bad request' });
-    }
-  } else {
-    res.status(401).json({ error: 'unauthorized' });
-  }
-};
-
-const removeUser = (req, res) => {
-  const code = req.body.code;
-  const username = req.body.username;
-
-  const validCode = CODE.filter(d => d.code === code);
-
-  if (validCode && validCode[0] && validCode[0].code) {
-    if (username) {
-      User.findOneAndRemove({ username: username }, (err, doc)=> {
+    if (id) {
+      Device.findOneAndRemove({ id: id }, (err, doc)=> {
         if (err) {
           console.error(err);
           res.status(500).json({ error: 'Something went wrong!' })
           return;
         }
         if (doc) {
-          res.status(200).json({ message: 'User removed!' });
+          res.status(200).json({ message: 'Device removed!' });
         } else {
-          res.status(200).json({ message: 'User not found!' });
+          res.status(200).json({ message: 'Device not found!' });
         }
       });
       
@@ -169,10 +126,28 @@ const removeUser = (req, res) => {
   }
 };
 
+const isOnline = (req, res) => {
+  const code = req.body.code;
+  const id = req.body.id;
+
+  const validCode = CODE.filter(d => d.code === code);
+
+  if (validCode && validCode[0] && validCode[0].code) {
+    if (id) {
+      // Check online here
+      res.status(200).json({ message: 'Device checkeddddd' });
+    } else {
+      res.status(400).json({ error: 'Bad request' });
+    }
+  } else {
+    res.status(401).json({ error: 'unauthorized' });
+  }
+};
+
 module.exports = {
-  getUserList,
-  createUser,
-  updateUser,
-  changePassword,
-  removeUser,
-}
+  deviceList,
+  createDevice,
+  updateDevice,
+  removeDevice,
+  isOnline
+};

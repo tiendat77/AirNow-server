@@ -62,6 +62,7 @@ app
   .use('/api', require('./routes/api'))
   .use('/esp32', require('./routes/esp32'))
   .use('/admin', require('./routes/admin'))
+  .use('/device', require('./routes/device'))
 
 ///////////////////////////////////////////////////
 ///////////////       RUN      ////////////////////
