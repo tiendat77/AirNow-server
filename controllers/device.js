@@ -38,7 +38,7 @@ const createDevice = (req, res) => {
           return;
         }
         if (doc) {
-          res.status(400).json({ error: 'Device id is already exists' });
+          res.status(400).json({ error: `Device ${id} is already exists` });
           return;
         }
 
