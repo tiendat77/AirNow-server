@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
   } else if (aqi > 150 && aqi < 201) {
     descript = "Unhealthy";
   } else if (aqi > 200 && aqi < 301) {
-    descript = "Very Unhealthy";
+    descript = "Very unhealthy";
   } else if (aqi > 300) {
     descript = "Hazardous";
   }
