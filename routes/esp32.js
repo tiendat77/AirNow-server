@@ -1,24 +1,11 @@
 const express = require('express');
-const logger = require('../log/logger');
 const router = express.Router();
 const Influx = require('influx');
+const influx = new Influx.InfluxDB('http://127.0.0.1:8086/AirNow_database');
+
+const logger = require('../log/logger');
 const Device = require('../models/Device');
-const SERVER_URL = 'http://13.59.35.198:8086/AirNow_database';
-const LOCAL_URL = 'http://127.0.0.1:8086/AirNow_database';
-const influx = new Influx.InfluxDB(LOCAL_URL);
-
 const statistic = require('../controllers/statistic');
-router.get('/', (req, res) => {
-
-  const result = {
-    message: 'get success!',
-    para: req.query.para
-  };
-
-  res.status(200).json(result);
-
-  console.log('ESP32 Get requested!');
-});
 
 // Checking the database
 influx
@@ -50,13 +37,13 @@ router.post('/', (req, res) => {
   } else if (aqi > 150 && aqi < 201) {
     descript = "Unhealthy";
   } else if (aqi > 200 && aqi < 301) {
-    descript = "Very Unhealthy";
+    descript = "Very unhealthy";
   } else if (aqi > 300) {
     descript = "Hazardous";
   }
 
   if (device_id && !isNaN(device_id)) {
-    Device.findOne({ device_id: device_id }, function (err, device) {
+    Device.findOne({ id: device_id }, function (err, device) {
       if (err) { return done(err); }
       if (!device) {
         logger.info('Unauthorized');
