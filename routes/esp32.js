@@ -33,11 +33,11 @@ router.post('/', (req, res) => {
   } else if (aqi > 50 && aqi < 101) {
     descript = "Moderate";
   } else if (aqi > 100 && aqi < 151) {
-    descript = "Unhealthy for sensitive groups";
+    descript = "Unhealthy for Sensitive Groups";
   } else if (aqi > 150 && aqi < 201) {
     descript = "Unhealthy";
   } else if (aqi > 200 && aqi < 301) {
-    descript = "Very unhealthy";
+    descript = "Very Unhealthy";
   } else if (aqi > 300) {
     descript = "Hazardous";
   }
