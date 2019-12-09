@@ -17,6 +17,21 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public/airnow-dashboard', 'index.html'));
 });
 
+router.get('/dashboard/home', ensureAuthenticated, (req, res) => {
+  statistic.visit();
+  res.sendFile(path.join(__dirname, '..', 'public/airnow-dashboard', 'index.html'));
+});
+
+router.get('/dashboard/user', ensureAuthenticated, (req, res) => {
+  statistic.visit();
+  res.sendFile(path.join(__dirname, '..', 'public/airnow-dashboard', 'index.html'));
+});
+
+router.get('/dashboard/device', ensureAuthenticated, (req, res) => {
+  statistic.visit();
+  res.sendFile(path.join(__dirname, '..', 'public/airnow-dashboard', 'index.html'));
+});
+
 // Login get page
 router.get('/login', forwardAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public/airnow-dashboard', 'index.html'));
