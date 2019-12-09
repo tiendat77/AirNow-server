@@ -18,11 +18,27 @@ influx
 router.get('/statistics', statistic.getAll);
 
 router.get('/forecast', (req, res) => {
-  const query = [
+  const location = req.query.location;
+
+  const queryWithLocation = [
+    `SELECT * FROM air_aqi WHERE location='${location}' ORDER BY DESC LIMIT 1`,
+    `SELECT * FROM air_temperature WHERE location='${location}' ORDER BY DESC LIMIT 1`,
+    `SELECT * FROM air_humidity WHERE location='${location}' ORDER BY DESC LIMIT 1`,
+  ];
+
+  const queryWithoutLocation = [
     'SELECT * FROM air_aqi GROUP BY location ORDER BY DESC LIMIT 1',
     'SELECT * FROM air_temperature GROUP BY location ORDER BY DESC LIMIT 1',
     'SELECT * FROM air_humidity GROUP BY location ORDER BY DESC LIMIT 1',
   ];
+
+  var query = null;
+  if (location) {
+    query = queryWithLocation;
+  } else {
+    query = queryWithoutLocation;
+  }
+
   influx
     .query(query)
     .then(result => {
