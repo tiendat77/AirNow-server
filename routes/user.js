@@ -38,7 +38,13 @@ router.post('/login', (req, res, next) => {
         if (err) {
           return next(err);
         }
-        return res.status(200).json({ valid: 1, message: 'Login success' });
+        return res.status(200).json({
+          valid: 1,
+          message: 'Login success',
+          username: user.username,
+          name: user.name,
+          email: user.email
+        });
       })
     }
   )(req, res, next);
