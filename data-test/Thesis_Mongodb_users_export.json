@@ -1,0 +1,5 @@
+{"_id":{"$oid":"5dd7a5d327fa6e89a510700e"},"name":"AirNow","email":"airnow@gmail.com","username":"airnow","password":"170587e83d7f4c5e3dd5e0d02198bc64"}
+{"_id":{"$oid":"5dd7a5dd27fa6e89a510700f"},"name":"Mr Test","email":"mr.test@gmail.com","username":"test","password":"f5d1278e8109edd94e1e4197e04873b9"}
+{"_id":{"$oid":"5dd7a5ea27fa6e89a5107010"},"name":"Tiến Đạt","email":"tiendat@gmail.com","username":"tiendat","password":"5f0ee0f5466db4834090d7118aa3878a"}
+{"_id":{"$oid":"5dd7a87034e8561fee93cedb"},"name":"UIT Tester","username":"uit_tester","email":"tester@gm.uit.edu.vn","password":"68d611c4b13af4ec4bdf3ed08ae8edac","__v":0}
+{"_id":{"$oid":"5dd7fa173b1c312468b5c51c"},"name":"Admin","username":"admin123","email":"admin@airnow.com","password":"0192023a7bbd73250516f069df18b500","__v":0}
