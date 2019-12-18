@@ -26,8 +26,8 @@ const deviceList = (req, res) => {
 
 const createDevice = (req, res) => {
   const code = req.body.code;
-  const id = req.body.id;
-  const location = req.body.location;
+  const id = req.body.id.toString();
+  const location = req.body.location.toString();
 
   const validCode = CODE.filter(d => d.code === code);
 
@@ -55,8 +55,8 @@ const createDevice = (req, res) => {
             return;
           }
 
+          res.status(200).json({success: true, message: 'Device created!' });
           Statistics.incDevice();
-          res.status(200).json({ message: 'Device created!' });
         });
 
       });
@@ -103,23 +103,24 @@ const updateDevice = (req, res) => {
 
 const removeDevice = (req, res) => {
   const code = req.body.code;
-  const id = req.body.id;
+  const id = req.body.id.toString();
 
   const validCode = CODE.filter(d => d.code === code);
 
   if (validCode && validCode[0] && validCode[0].code) {
     if (id) {
-      Device.findOneAndRemove({ id: id }, (err, doc)=> {
+      Device.findOneAndDelete({ id: id }, (err, doc)=> {
         if (err) {
           console.error(err);
           res.status(500).json({ error: 'Something went wrong!' })
           return;
         }
+        console.log('doc', doc);
         if (doc) {
+          res.status(200).json({ success: true, message: 'Device removed!' });
           Statistics.decDevice();
-          res.status(200).json({ message: 'Device removed!' });
         } else {
-          res.status(200).json({ message: 'Device not found!' });
+          res.status(200).json({ success: false, message: 'Device not found!' });
         }
       });
       
