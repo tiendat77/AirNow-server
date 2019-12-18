@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "fileName": "20191218T163041Z.meta",
+    "size": 1304
+  },
+  "limited": false,
+  "files": [
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 46,
+      "fileName": "20191218T163041Z.s46.tar.gz",
+      "size": 3072,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 47,
+      "fileName": "20191218T163041Z.s47.tar.gz",
+      "size": 3584,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 48,
+      "fileName": "20191218T163041Z.s48.tar.gz",
+      "size": 3584,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 49,
+      "fileName": "20191218T163041Z.s49.tar.gz",
+      "size": 3584,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 45,
+      "fileName": "20191218T163041Z.s45.tar.gz",
+      "size": 4096,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 50,
+      "fileName": "20191218T163041Z.s50.tar.gz",
+      "size": 19968,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 58,
+      "fileName": "20191218T163041Z.s58.tar.gz",
+      "size": 36352,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 66,
+      "fileName": "20191218T163041Z.s66.tar.gz",
+      "size": 16896,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 74,
+      "fileName": "20191218T163041Z.s74.tar.gz",
+      "size": 4096,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 82,
+      "fileName": "20191218T163041Z.s82.tar.gz",
+      "size": 8704,
+      "lastModified": 0
+    },
+    {
+      "database": "AirNow_database",
+      "policy": "autogen",
+      "shardID": 90,
+      "fileName": "20191218T163041Z.s90.tar.gz",
+      "size": 4608,
+      "lastModified": 0
+    }
+  ]
+}

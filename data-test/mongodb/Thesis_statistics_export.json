@@ -1,4 +1,4 @@
 {"_id":{"$oid":"5dbe43f946e3c0fce197f927"},"title":"visit","value":147.0}
-{"_id":{"$oid":"5dbe43f946e3c0fce197f928"},"title":"download","value":3788.0}
+{"_id":{"$oid":"5dbe43f946e3c0fce197f928"},"title":"download","value":3801.0}
 {"_id":{"$oid":"5dbe43f946e3c0fce197f929"},"title":"upload","value":4830.0}
 {"_id":{"$oid":"5dbe43f946e3c0fce197f92a"},"title":"device","value":2.0}
