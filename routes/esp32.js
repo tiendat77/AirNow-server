@@ -25,7 +25,7 @@ router.post('/', (req, res) => {
   var location = req.body.location;
   var humi = parseFloat(req.body.humi);
   var temp = parseFloat(req.body.temp);
-  var device_id = parseInt(req.body.device_id);
+  var device_id = req.body.device_id;
   var descript = "";
 
   if (aqi > 0 && aqi < 51) {
@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
     descript = "Hazardous";
   }
 
-  if (device_id && !isNaN(device_id)) {
+  if (device_id) {
     Device.findOne({ id: device_id }, function (err, device) {
       if (err) { return done(err); }
       if (!device) {

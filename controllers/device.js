@@ -1,4 +1,5 @@
 const Device = require('../models/Device');
+const Statistics =  require('../controllers/statistic');
 
 const CODE = [
   { code: '93cf8cb6e31a3c5fddc70e8a0bb86075' },
@@ -53,8 +54,11 @@ const createDevice = (req, res) => {
             res.status(500).json({ error: 'Something went wrong!' })
             return;
           }
+
+          Statistics.incDevice();
           res.status(200).json({ message: 'Device created!' });
-        })
+        });
+
       });
 
     } else {
@@ -112,6 +116,7 @@ const removeDevice = (req, res) => {
           return;
         }
         if (doc) {
+          Statistics.decDevice();
           res.status(200).json({ message: 'Device removed!' });
         } else {
           res.status(200).json({ message: 'Device not found!' });

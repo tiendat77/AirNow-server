@@ -53,9 +53,20 @@ const upload = () => {
     })
 }
 
-const device = () => {
+const incDevice = () => {
   Statistic
-    .updateOne({ title: 'device added' }, {$inc: { value: 1 }})
+    .updateOne({ title: 'device' }, {$inc: { value: 1 }})
+    .then(result => {
+      logger.info('Device' + result);
+    })
+    .catch(error => {
+      logger.error(error);
+    })
+}
+
+const decDevice = () => {
+  Statistic
+    .updateOne({ title: 'device' }, {$inc: { value: -1 }})
     .then(result => {
       logger.info('Device' + result);
     })
@@ -69,5 +80,6 @@ module.exports = {
   visit,
   download,
   upload,
-  device
+  incDevice,
+  decDevice,
 }
