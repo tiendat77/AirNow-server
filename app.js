@@ -68,7 +68,7 @@ app
 ///////////////       RUN      ////////////////////
 ///////////////////////////////////////////////////
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 80;
 
 const server = http.createServer(app);
 
