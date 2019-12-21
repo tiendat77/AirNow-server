@@ -6,7 +6,6 @@ const Influx = require('influx');
 const influx = new Influx.InfluxDB('http://127.0.0.1:8086/AirNow_database');
 
 const statistic = require('../controllers/statistic');
-const { ensureAuthenticatedApi } = require('../config/auth');
 
 // Test connection
 influx
@@ -14,7 +13,6 @@ influx
   .then(names => console.log('InfluxDB Connected: ' + names.join(', ')))
   .catch(error => console.error({ error }));
 
-// router.get('/statistics', ensureAuthenticatedApi, statistic.getAll);
 router.get('/statistics', statistic.getAll);
 
 router.get('/forecast', (req, res) => {
