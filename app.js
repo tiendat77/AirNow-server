@@ -5,7 +5,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
-const flash = require('connect-flash');
 
 const app = express();
 
@@ -26,35 +25,23 @@ mongoose
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
-// Express session
-app.use(
-  session({
-    secret: 'secret_thesis',
-    resave: true,
-    cookie: {
-      maxAge: 1000 * 60 * 5
-    },
-    saveUninitialized: true
-  })
-);
-
 app
   .use(express.static('public/airnow-dashboard'))
   .use(cors())
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
+  .use(
+    session({
+      secret: 'secret_thesis',
+      resave: true,
+      cookie: {
+        maxAge: 1000 * 60 * 5
+      },
+      saveUninitialized: true
+    })
+  )
   .use(passport.initialize())
-  .use(passport.session())
-  .use(flash());
-
-// Global variables
-app.use(function (req, res, next) {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  next();
-});
-
+  .use(passport.session());
 
 // Routes
 app

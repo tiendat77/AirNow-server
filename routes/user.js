@@ -68,7 +68,6 @@ router.post('/login', (req, res, next) => {
 // Logout
 router.get('/logout', ensureAuthenticated, (req, res) => {
   req.logOut();
-  req.flash('success_msg', 'You are logged out');
   res.status(200).json({ logout: true, message: 'Logout out' });
 });
 

@@ -3,7 +3,6 @@ module.exports = {
     if (req.isAuthenticated()) {
       return next();
     }
-    req.flash('error_msg', 'Please login to view that resource');
     res.redirect('/login');
 
   },
@@ -17,7 +16,6 @@ module.exports = {
     if (req.isAuthenticated()) {
       return next();
     }
-    req.flash('error_msg', 'Please login to use that api');
     res.status(400).json({ message: 'Please login to use that api' });
   }
 };
