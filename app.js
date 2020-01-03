@@ -63,12 +63,12 @@ app
 ///////////////       RUN      ////////////////////
 ///////////////////////////////////////////////////
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 443;
 const hostname = 'airnowuit.xyz';
 
 const server = http.createServer(httpsOptions, app);
 
-server.listen(port, hostname, () => {
+server.listen(port, () => {
   console.log(`
    _____ _   _ _____ ____ ___ ____  
   |_   _| | | | ____/ ___|_ _/ ___| 
