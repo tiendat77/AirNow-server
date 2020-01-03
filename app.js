@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http');
 const https = require('https');
 const bodyParser = require('body-parser')
 const cors = require('cors');
@@ -55,6 +56,15 @@ app
 ///////////////////////////////////////////////////
 ///////////////       RUN      ////////////////////
 ///////////////////////////////////////////////////
+
+const port8000 = process.env.PORT || 8000;
+
+
+const server8000 = http.createServer( app);
+
+server8000.listen(port8000, () => {
+  console.log("Server is running in port:", port8000) ;
+})
 
 const port = process.env.PORT || 443;
 const httpsOptions = {
