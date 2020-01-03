@@ -1,18 +1,11 @@
-const fs = require('fs');
-
-const httpsOptions = {
-  cert: fs.readFileSync('./ssl/certificate.crt'),
-  ca: fs.readFileSync('./ssl/ca_bundle.crt'),
-  key: fs.readFileSync('./ssl/private.key')
-};
-
 const express = require('express');
-const http = require('http');
+const https = require('https');
 const bodyParser = require('body-parser')
 const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+const fs = require('fs');
 
 const app = express();
 
@@ -63,10 +56,14 @@ app
 ///////////////       RUN      ////////////////////
 ///////////////////////////////////////////////////
 
-const port = process.env.PORT || 443;
-const hostname = 'airnowuit.xyz';
+const port = process.env.PORT || 8000;
+const httpsOptions = {
+  cert: fs.readFileSync('./ssl/certificate.crt'),
+  ca: fs.readFileSync('./ssl/ca_bundle.crt'),
+  key: fs.readFileSync('./ssl/private.key')
+};
 
-const server = http.createServer(httpsOptions, app);
+const server = https.createServer(httpsOptions, app);
 
 server.listen(port, () => {
   console.log(`
