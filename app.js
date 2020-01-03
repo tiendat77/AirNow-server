@@ -56,7 +56,7 @@ app
 ///////////////       RUN      ////////////////////
 ///////////////////////////////////////////////////
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 443;
 const httpsOptions = {
   cert: fs.readFileSync('./ssl/certificate.crt'),
   ca: fs.readFileSync('./ssl/ca_bundle.crt'),
