@@ -1,3 +1,11 @@
+const fs = require('fs');
+
+const httpsOptions = {
+  cert: fs.readFileSync('./ssl/certificate.crt'),
+  ca: fs.readFileSync('./ssl/ca_bundle.crt'),
+  key: fs.readFileSync('./ssl/private.key')
+};
+
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser')
@@ -56,10 +64,11 @@ app
 ///////////////////////////////////////////////////
 
 const port = process.env.PORT || 8000;
+const hostname = 'airnowuit.xyz';
 
-const server = http.createServer(app);
+const server = http.createServer(httpsOptions, app);
 
-server.listen(port, () => {
+server.listen(port, hostname, () => {
   console.log(`
    _____ _   _ _____ ____ ___ ____  
   |_   _| | | | ____/ ___|_ _/ ___| 
