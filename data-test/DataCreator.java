@@ -7,29 +7,35 @@ import java.util.Random;
 public class DataCreator {
 
   /* Configurable */
-  //Output file name
+  // ---- Output file name ----
   static File file = new File("AirNow-data-test.txt");
 
-  static int numberOfRecord = 360;  // 3
-  static int timestampStart = 1569891600; // 1572613260
+  static int numberOfRecord = 200;
+  static int timestampStart = 1569891600;
   static int timeStep = 7200;
 
-  // Random scope
+  // ---- Random scope ----
   static Random rand = new Random();
   static int maxAqi = 179;
   static int minAqi = 49;
-  static int maxPollutant = 110;
-  static int minPollutant = 10;
+  static int maxPollutant = 79;
+  static int minPollutant = 21;
   static int maxTemp = 38;
-  static int minTemp = 25;
-  static int maxHumi = 98;
-  static int minHumi = 70;
+  static int minTemp = 32;
+  static int maxHumi = 66;
+  static int minHumi = 55;
 
-  // Line format
-  static String location = "Thủ\\ Đức"; // "Đông\\ Hòa";    "Bình\\ Thạnh";
-  static String lineAqi = "air_aqi,location=%s pollutant=%f,aqi=%d,description=\"%s\" %d\n";   // location: string, pollutant: float, aqi: int, description: string timestamp: long
-  static String lineTemperature = "air_temperature,location=%s degrees=%d %d\n";   // location: string, degrees: int timstamp: long
-  static String lineHumidity = "air_humidity,location=%s humidity=%d %d\n";        // location: string, humidity: int timstamp: long
+  // ---- Line format ----
+  // static String location = "Thủ\\ Đức";
+  // static String location = "Bình\\ Thạnh";
+  static String location = "Đông\\ Hòa";
+
+  static String lineAqi = "air_aqi,location=%s pollutant=%f,aqi=%d,description=\"%s\" %d\n";
+  // location: string, pollutant: float, aqi: int, description: string timestamp: long
+  static String lineTemperature = "air_temperature,location=%s degrees=%d %d\n";
+  // location: string, degrees: int timstamp: long
+  static String lineHumidity = "air_humidity,location=%s humidity=%d %d\n";
+  // location: string, humidity: int timstamp: long
   
   static int AQI_LEVELS = 7;
   
@@ -87,7 +93,7 @@ public class DataCreator {
         line = String.format(lineAqi, location, pollutant, aqi, descript, timestamp);
 
         printWriter.print(line);
-        timestamp += timeStep;  //Increase 1 hour
+        timestamp += timeStep;
       }
 
       fileWriter.flush();
@@ -147,7 +153,7 @@ public class DataCreator {
         line = String.format(lineTemperature, location, temp, timestamp);
 
         printWriter.print(line);
-        timestamp += timeStep;  //Increase 1 hour
+        timestamp += timeStep;
       }
 
       fileWriter.flush();
@@ -171,7 +177,7 @@ public class DataCreator {
         line = String.format(lineHumidity, location, humi, timestamp);
 
         printWriter.print(line);
-        timestamp += timeStep;  //Increase 1 hour
+        timestamp += timeStep;
       }
 
       fileWriter.flush();
@@ -183,7 +189,7 @@ public class DataCreator {
 
 }
 
-// struct pm25aqi
+// ---- struct pm25aqi ----
 class pm25aqiModel {
   public double clow;
   public double chigh;
