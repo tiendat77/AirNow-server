@@ -26,22 +26,21 @@ mongoose
   .catch(err => console.log(err));
 
 app
-  .use(express.static('public/airnow-dashboard'))
-  .use(cors())
-  .use(bodyParser.urlencoded({ extended: true }))
-  .use(bodyParser.json())
-  .use(
+   .use(express.static('public/airnow-dashboard'))
+   .use(cors())
+   .use(bodyParser.urlencoded({ extended: true }))
+   .use(bodyParser.json());
+  
+app.use(
     session({
       secret: 'secret_thesis',
       resave: true,
-      cookie: {
-        maxAge: 1000 * 60 * 5
-      },
       saveUninitialized: true
     })
-  )
-  .use(passport.initialize())
-  .use(passport.session());
+  );
+
+app.use(passport.initialize())
+   .use(passport.session());
 
 // Routes
 app
