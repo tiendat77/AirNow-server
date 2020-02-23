@@ -8,17 +8,21 @@ public class DataCreator {
 
   /* Configurable */
   // ---- Output file name ----
-  static File file = new File("AirNow-data-test.txt");
+  static File file = new File("AirNow-data-DongHoa.txt");
 
-  static int numberOfRecord = 200;
-  static int timestampStart = 1569891600;
-  static int timeStep = 7200;
+  static int numberOfRecord = 6;
+  static int timestampStart = 1580195405;
+  static int timeStep = 1200;
+
+  // static String location = "Thủ\\ Đức";
+  // static String location = "Bình\\ Thạnh";
+  static String location = "Đông\\ Hòa";
 
   // ---- Random scope ----
   static Random rand = new Random();
   static int maxAqi = 179;
   static int minAqi = 49;
-  static int maxPollutant = 79;
+  static int maxPollutant = 32;
   static int minPollutant = 21;
   static int maxTemp = 38;
   static int minTemp = 32;
@@ -26,19 +30,15 @@ public class DataCreator {
   static int minHumi = 55;
 
   // ---- Line format ----
-  // static String location = "Thủ\\ Đức";
-  // static String location = "Bình\\ Thạnh";
-  static String location = "Đông\\ Hòa";
-
   static String lineAqi = "air_aqi,location=%s pollutant=%f,aqi=%d,description=\"%s\" %d\n";
   // location: string, pollutant: float, aqi: int, description: string timestamp: long
   static String lineTemperature = "air_temperature,location=%s degrees=%d %d\n";
   // location: string, degrees: int timstamp: long
   static String lineHumidity = "air_humidity,location=%s humidity=%d %d\n";
   // location: string, humidity: int timstamp: long
-  
+
   static int AQI_LEVELS = 7;
-  
+
   static pm25aqiModel[] pm25aqi = {
     new pm25aqiModel(0.0, 12.0, 0, 50),
     new pm25aqiModel(12.1, 35.4, 51, 100),
@@ -48,7 +48,7 @@ public class DataCreator {
     new pm25aqiModel(250.5, 350.4, 301, 350),
     new pm25aqiModel(350.5, 500.4, 401, 500),
   };
-  
+
 
   public static void main(String[] args) {
     System.out.println("Creating sample data for influxdb");
@@ -66,7 +66,8 @@ public class DataCreator {
       FileWriter fileWriter = new FileWriter(file, true);
       PrintWriter printWriter = new PrintWriter(fileWriter);
 
-      printWriter.print("# DDL\n\nCREATE DATABASE AirNow_database\n\n# DML\n\n# CONTEXT-DATABASE: AirNow_database\n\n");
+      // printWriter.print("# DDL\n\nCREATE DATABASE AirNow_database\n\n# DML\n\n# CONTEXT-DATABASE: AirNow_database\n\n");
+      // printWriter.print("# DDL\n\n# DML\n\n# CONTEXT-DATABASE: AirNow_database\n\n");
 
       fileWriter.flush();
       fileWriter.close();
@@ -83,11 +84,11 @@ public class DataCreator {
       long timestamp = timestampStart;
       String line = "";
       int aqi;
-	    float pollutant;
+      float pollutant;
       String descript = "";
 
       for (int i = 0; i < numberOfRecord; i++) {
-		    pollutant = rand.nextFloat()*(maxPollutant - minPollutant) + minPollutant;
+        pollutant = rand.nextFloat() * (maxPollutant - minPollutant) + minPollutant;
         aqi = ugm3_aqi(pollutant);
         descript = getDescription(aqi);
         line = String.format(lineAqi, location, pollutant, aqi, descript, timestamp);
@@ -102,21 +103,18 @@ public class DataCreator {
       e.printStackTrace();
     }
   }
-  
-  public static int ugm3_aqi(float concentration_ugm3)
-	{
-	  for (int i = 0; i < AQI_LEVELS; i++)
-	  {
-      if (concentration_ugm3 >= pm25aqi[i].clow && concentration_ugm3 <= pm25aqi[i].chigh)
-      {
-        int result = (int) (((pm25aqi[i].lhigh - pm25aqi[i].llow) /
-                              (pm25aqi[i].chigh - pm25aqi[i].clow)) *
-                              (concentration_ugm3 - pm25aqi[i].clow) +
-                              pm25aqi[i].llow);
+
+  public static int ugm3_aqi(float concentration_ugm3) {
+    for (int i = 0; i < AQI_LEVELS; i++) {
+      if (concentration_ugm3 >= pm25aqi[i].clow && concentration_ugm3 <= pm25aqi[i].chigh) {
+        int result = (int)(((pm25aqi[i].lhigh - pm25aqi[i].llow) /
+            (pm25aqi[i].chigh - pm25aqi[i].clow)) *
+          (concentration_ugm3 - pm25aqi[i].clow) +
+          pm25aqi[i].llow);
         return result;
       }
-	  }
-	  return 0;
+    }
+    return 0;
   }
 
   public static String getDescription(int aqi) {
@@ -199,7 +197,7 @@ class pm25aqiModel {
   public pm25aqiModel() {
 
   }
-  
+
   public pm25aqiModel(double clow, double chigh, int llow, int lhigh) {
     this.clow = clow;
     this.chigh = chigh;
