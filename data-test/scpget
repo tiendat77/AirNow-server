@@ -1,1 +1,0 @@
-scp -i "thesis-ubuntu.pem" -r ubuntu@ec2-13-59-35-198.us-east-2.compute.amazonaws.com:~/AirNow_database AirNow_database

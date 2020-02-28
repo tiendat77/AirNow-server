@@ -8,33 +8,41 @@ public class DataCreator {
 
   /* Configurable */
   // ---- Output file name ----
-  static File file = new File("AirNow-data-DongHoa.txt");
+  static File file = new File("AirNow-data.txt");
 
   static int numberOfRecord = 6;
-  static int timestampStart = 1580195405;
+  static long timestampStart = 1582261213;
+  static long timestamp = 1582261213;
   static int timeStep = 1200;
+  static int linear = 1;
 
   // static String location = "Thủ\\ Đức";
-  // static String location = "Bình\\ Thạnh";
-  static String location = "Đông\\ Hòa";
+  static String location = "Bình\\ Thạnh";
+  // static String location = "Đông\\ Hòa";
 
   // ---- Random scope ----
   static Random rand = new Random();
   static int maxAqi = 179;
   static int minAqi = 49;
-  static int maxPollutant = 32;
-  static int minPollutant = 21;
-  static int maxTemp = 38;
-  static int minTemp = 32;
-  static int maxHumi = 66;
-  static int minHumi = 55;
+  static float maxPollutant = 33;
+  static float minPollutant = 21;
+  static float maxTemp = 31;
+  static float minTemp = 28;
+  static float maxHumi = 66;
+  static float minHumi = 55;
+  static float mmaxPollutant = 33;
+  static float mminPollutant = 21;
+  static float mmaxTemp = 31;
+  static float mminTemp = 28;
+  static float mmaxHumi = 66;
+  static float mminHumi = 55;
 
   // ---- Line format ----
   static String lineAqi = "air_aqi,location=%s pollutant=%f,aqi=%d,description=\"%s\" %d\n";
   // location: string, pollutant: float, aqi: int, description: string timestamp: long
-  static String lineTemperature = "air_temperature,location=%s degrees=%d %d\n";
+  static String lineTemperature = "air_temperature,location=%s degrees=%f %d\n";
   // location: string, degrees: int timstamp: long
-  static String lineHumidity = "air_humidity,location=%s humidity=%d %d\n";
+  static String lineHumidity = "air_humidity,location=%s humidity=%f %d\n";
   // location: string, humidity: int timstamp: long
 
   static int AQI_LEVELS = 7;
@@ -54,9 +62,28 @@ public class DataCreator {
     System.out.println("Creating sample data for influxdb");
 
     init();
-    createAQI();
-    createTemperature();
-    createHumidity();
+
+    for (int i = 0; i < 5; i++) {
+      timestampStart = timestamp;
+      getConfig(1);
+      createAQI();
+      createTemperature();
+      createHumidity();
+
+      timestampStart += 7200;
+      getConfig(2);
+      createAQI();
+      createTemperature();
+      createHumidity();
+
+      timestampStart += 10800;
+      getConfig(3);
+      createAQI();
+      createTemperature();
+      createHumidity();
+
+      timestamp += 86400;
+    }
 
     System.out.println("Done!");
   }
@@ -67,7 +94,7 @@ public class DataCreator {
       PrintWriter printWriter = new PrintWriter(fileWriter);
 
       // printWriter.print("# DDL\n\nCREATE DATABASE AirNow_database\n\n# DML\n\n# CONTEXT-DATABASE: AirNow_database\n\n");
-      // printWriter.print("# DDL\n\n# DML\n\n# CONTEXT-DATABASE: AirNow_database\n\n");
+      printWriter.print("# DDL\n\n# DML\n\n# CONTEXT-DATABASE: AirNow_database\n\n");
 
       fileWriter.flush();
       fileWriter.close();
@@ -86,6 +113,13 @@ public class DataCreator {
       int aqi;
       float pollutant;
       String descript = "";
+      float currentPollutant;
+
+      if (linear == 1) {
+        currentPollutant = minPollutant;
+      } else {
+        currentPollutant = maxPollutant;
+      }
 
       for (int i = 0; i < numberOfRecord; i++) {
         pollutant = rand.nextFloat() * (maxPollutant - minPollutant) + minPollutant;
@@ -94,6 +128,7 @@ public class DataCreator {
         line = String.format(lineAqi, location, pollutant, aqi, descript, timestamp);
 
         printWriter.print(line);
+        currentPollutant = pollutant;
         timestamp += timeStep;
       }
 
@@ -144,14 +179,22 @@ public class DataCreator {
 
       long timestamp = timestampStart;
       String line = "";
-      int temp;
+      float temp;
+      float currentTemp;
+
+      if (linear == 1) {
+        currentTemp = minTemp;
+      } else {
+        currentTemp = maxTemp;
+      }
 
       for (int i = 0; i < numberOfRecord; i++) {
-        temp = rand.nextInt((maxTemp - minTemp) + 1) + minTemp;
+        temp = rand.nextFloat() * (mmaxTemp - mminTemp) * linear + currentTemp;
         line = String.format(lineTemperature, location, temp, timestamp);
 
         printWriter.print(line);
         timestamp += timeStep;
+        currentTemp = temp;
       }
 
       fileWriter.flush();
@@ -168,14 +211,22 @@ public class DataCreator {
 
       long timestamp = timestampStart;
       String line = "";
-      int humi;
+      float humi;
+      float currentHumi;
+
+      if (linear == 1) {
+        currentHumi = maxHumi;
+      } else {
+        currentHumi = minHumi;
+      }
 
       for (int i = 0; i < numberOfRecord; i++) {
-        humi = rand.nextInt((maxHumi - minHumi) + 1) + minHumi;
+        humi = rand.nextFloat() * (mmaxHumi - mminHumi) * (-1 * linear)+ currentHumi;
         line = String.format(lineHumidity, location, humi, timestamp);
 
         printWriter.print(line);
         timestamp += timeStep;
+        currentHumi = humi;
       }
 
       fileWriter.flush();
@@ -183,6 +234,64 @@ public class DataCreator {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public static void getConfig(int number) {
+    switch (number) {
+      case 1: { // 12h-14h
+        numberOfRecord = 6;
+        minTemp = 29.9f;
+        maxTemp = 32.8f;
+        mmaxTemp = 0.5f;
+        mminTemp = 0.3f;
+        minHumi = 40.4f;
+        maxHumi = 46.5f;
+        mmaxHumi = 1.9f;
+        mminHumi= 0.9f;
+        linear = 1; // inc temperature - des humidity
+        minPollutant = 26.8f;
+        maxPollutant = 43.2f;
+        mmaxPollutant = 3.5f;
+        mminPollutant = 1.5f;
+        break;
+      }
+
+      case 2: { // 14h - 16h
+        numberOfRecord = 6;
+        minTemp = 29.8f;
+        maxTemp = 32.5f;
+        mminTemp = 0.6f;
+        mmaxTemp = 0.9f;
+        minHumi = 46.5f;
+        maxHumi = 56.2f;
+        mmaxHumi = 1.9f;
+        mminHumi= 0.7f;
+        linear = -1; // des temperature - inc humidity
+        minPollutant = 9.3f;
+        maxPollutant = 10.8f;
+        mmaxPollutant = 3.2f;
+        mminPollutant = 1.1f;
+        break;
+      }
+
+      case 3: { // 19h - 23h
+        numberOfRecord = 12;
+        minTemp = 27.8f;
+        maxTemp = 29.7f;
+        mminTemp = 0.7f;
+        mmaxTemp = 1.1f;
+        minHumi = 52.2f;
+        maxHumi = 62.1f;
+        mmaxHumi = 1.6f;
+        mminHumi= 0.9f;
+        linear = -1; // des temperature - inc humidity
+        minPollutant = 5.7f;
+        maxPollutant = 8.8f;
+        mmaxPollutant = 1.9f;
+        mminPollutant = 1.3f;
+      }
+    }
+
   }
 
 }

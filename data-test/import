@@ -1,1 +1,1 @@
-influx -import -path=AirNow-data-DongHoa.txt -precision=s -database=AirNow_database
+influx -import -path=AirNow-data.txt -precision=s -database=AirNow_database
