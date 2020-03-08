@@ -17,8 +17,8 @@ public class DataCreator {
   static int linear = 1;
 
   // static String location = "Thủ\\ Đức";
-  static String location = "Bình\\ Thạnh";
-  // static String location = "Đông\\ Hòa";
+  // static String location = "Bình\\ Thạnh";
+  static String location = "Đông\\ Hòa";
 
   // ---- Random scope ----
   static Random rand = new Random();
